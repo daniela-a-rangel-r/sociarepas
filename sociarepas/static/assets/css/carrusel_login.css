@@ -1,0 +1,61 @@
+/* Carrusel de arepas */
+.arepa-carousel-card {
+    margin-left: 32px;
+    margin-right: 0;
+    max-width: 440px;
+    width: 100%;
+    background: #fff;
+    border: 1.5px solid #e0e0e0;
+    border-radius: 12px;
+    overflow: hidden;
+    display: flex;
+    align-items: stretch;
+    height: 100%;
+    /* Contorno brillante animado, más leve y pequeño, solo amarillo, azul y rojo */
+    box-shadow:
+        0 0 8px 2px #ffe066,
+        0 0 12px 3px #0066ff,
+        0 0 16px 4px #ff4d4d;
+    animation: arepa-glow 2s infinite alternate;
+}
+
+@keyframes arepa-glow {
+    0% {
+        box-shadow:
+            0 0 8px 2px #ffe066,
+            0 0 12px 3px #0066ff,
+            0 0 16px 4px #ff4d4d;
+    }
+    100% {
+        box-shadow:
+            0 0 12px 3px #ffe066,
+            0 0 16px 4px #0066ff,
+            0 0 20px 6px #ff4d4d;
+    }
+}
+
+.arepa-carousel {
+    width: 100%;
+    height: 100%;
+    min-height: 420px; /* Ajusta este valor según el alto real del login */
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fafafa;
+}
+
+.arepa-slide {
+    position: absolute;
+    left: 0; top: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 0.7s;
+    z-index: 1;
+}
+.arepa-slide.active {
+    opacity: 1;
+    z-index: 2;
+}

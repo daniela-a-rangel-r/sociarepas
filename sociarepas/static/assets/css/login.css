@@ -1,0 +1,146 @@
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* Fondo con imagen y overlay oscuro */
+    background:
+        linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+        url('../img/fondo_login.png') center center / cover no-repeat;
+    z-index: 1;
+}
+
+.login-page {
+    min-height: 100vh;
+    min-width: 100vw;
+    display: flex;
+    align-items: flex-start;
+    /* Ya está bien para pegar arriba */
+    justify-content: flex-end;
+    position: relative;
+    padding-right: 48vw;
+    box-sizing: border-box;
+    /* Puedes agregar un poco de padding-top si quieres separar del borde superior */
+    padding-bottom: 10%;
+}
+
+.login-box {
+    position: relative;
+    z-index: 2;
+    border-radius: 16px;
+    background: rgba(194, 194, 194, 0.95);
+    padding: 0;
+    box-shadow: 0 0 28px rgba(70, 70, 70, 0.9);
+    max-width: 900px;
+    /* Más ancho */
+    width: 200%;
+    margin-left: 50px;
+    margin-right: 0;
+}
+
+.login-outer-box {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    height: 100%;
+    padding: 50px 50px 50px 50px;
+    /* Más padding */
+    border-radius: 20px;
+}
+
+.card {
+    width: 100%;
+    max-width: 8500px;
+    /* Más ancho el formulario */
+    margin: 0 auto;
+    box-shadow: none;
+    background: transparent;
+    border-radius: 20px;
+}
+
+#login-title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+#system-title {
+    font-family: 'Poppins', sans-serif;
+    font-size: 2.5rem;
+}
+
+
+#amb-shield {
+    height: 60px;
+    width: auto;
+}
+
+/* Responsivo para pantallas pequeñas */
+@media (max-width: 600px) {
+    .login-page {
+        justify-content: center;
+        padding-right: 0;
+        padding-left: 0;
+    }
+
+    .login-box {
+        min-width: 90vw;
+        max-width: 95vw;
+        padding: 10px;
+    }
+}
+
+.card-arepa {
+    width: 4rem;
+    padding: 0.5rem;
+}
+
+.elegant-font {
+    font-family: 'Dancing Script', cursive;
+    font-size: 2.5rem;
+    font-weight: 700;
+    font-style: italic;
+    color: #333;
+    letter-spacing: -1px;
+}
+
+.btn-arepa {
+    background-color: #FFD600 !important;
+    /* Amarillo */
+    color: #333 !important;
+    border: none;
+    position: relative;
+    transition: background 0.2s;
+}
+
+.btn-arepa:hover {
+    background-color: #fff268 !important;
+}
+
+.btn-arepa:hover .arepa-icon-hover {
+    display: block;
+}
+
+
+
+.arepa-hover-float {
+    position: absolute;
+    top: -10px;
+    /* Encima del botón */
+    right: 90px;
+    /* A la derecha del botón */
+    width: 30px;
+    /* Tamaño pequeño */
+    height: 30px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s;
+    z-index: 10;
+
+}
+
+.col-12.d-flex.justify-content-center.position-relative:hover .arepa-hover-float {
+    opacity: 1;
+}
