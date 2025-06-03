@@ -1,1 +1,70 @@
-<h1>ultimo creo</h1>
+{% extends 'home.html' %}
+{% block content %}
+{% load static %}
+
+<div class="head-title">
+    <div class="left">
+        <h1>Pedidos</h1>
+    </div>
+</div>
+
+<div class="table-data">
+    <div class="order">
+        <table id="datatable-order">
+            <thead>
+                <tr>
+                    <th>User</th>
+                    <th>Date Order</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <img src="">
+                        <p>John Doe</p>
+                    </td>
+                    <td>01-10-2021</td>
+                    <td><span class="status completed">Completed</span></td>
+                </tr>
+                <tr>
+                    <td>
+                        <img src="">
+                        <p>John Doe</p>
+                    </td>
+                    <td>01-10-2021</td>
+                    <td><span class="status pending">Pending</span></td>
+                </tr>
+                <tr>
+                    <td>
+                        <img src="">
+                        <p>John Doe</p>
+                    </td>
+                    <td>01-10-2021</td>
+                    <td><span class="status process">Process</span></td>
+                </tr>
+                <tr>
+                    <td>
+                        <img src="">
+                        <p>John Doe</p>
+                    </td>
+                    <td>01-10-2021</td>
+                    <td><span class="status pending">Pending</span></td>
+                </tr>
+                <tr>
+                    <td>
+                        <img src="">
+                        <p>John Doe</p>
+                    </td>
+                    <td>01-10-2021</td>
+                    <td><span class="status completed">Completed</span></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'assets/js/datatable-order.js' %}"></script>
+{% endblock %}
