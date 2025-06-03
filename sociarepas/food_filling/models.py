@@ -11,10 +11,15 @@ SUPPLIER_CHOICES = [
 
 class Food_Filling(models.Model):
     name = models.CharField(max_length=45, null=False, verbose_name='Tipo de relleno')
-    fk_food_type = models.ForeignKey(Food_Type, on_delete=models.CASCADE)
+    quantity = models.IntegerField(null=True, verbose_name='Cantidad de relleno')
 
     class Meta:
         db_table = 'food_filling'
+
+class Food_Filling_Type_Details(models.Model):
+    fk_food_filling = models.ForeignKey(Food_Filling, on_delete=models.CASCADE)
+    fk_food_type = models.ForeignKey(Food_Type, on_delete=models.CASCADE)
+
         
 class Supplier(models.Model):
     supplier = models.IntegerField(null=True, choices=SUPPLIER_CHOICES, verbose_name='Proveedor')
