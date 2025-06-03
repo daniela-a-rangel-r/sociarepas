@@ -26,7 +26,7 @@ urlpatterns = [
     path("food_type/", include("food_type.urls")),
     path("home/", include("home.urls")),
     path("login/", include("login.urls")),
-    # path('', lambda request: redirect('login:login')),
+    path('', lambda request: redirect('login:login')),
     path("order/", include("order.urls")),
 ]
 
