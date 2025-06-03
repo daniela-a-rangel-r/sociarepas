@@ -8,7 +8,7 @@ togglePassword.addEventListener('click', () => {
     passwordField.setAttribute('type', type);
 
     // Cambiar el ícono
-    togglePassword.innerHTML = type === 'password' ? '<i class="fa-solid fa-eye"></i>' : '<i class="fa-solid fa-eye-slash"></i>';
+    togglePassword.innerHTML = type === 'password' ? '<i class="bx bxs-eye"/></i>' : '<i class="bx bxs-eye-slash"></i>';
 });
 
 // Manejar el inicio de sesión con AJAX

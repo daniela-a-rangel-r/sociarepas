@@ -10,11 +10,8 @@
     <meta name="title" content="Iniciar Sesión" />
     <!-- AdminLTE CSS -->
     <link rel="stylesheet" href="{% static 'assets/dist/css/adminlte.css' %}" />
-
-    <!-- Íconos de Font-Awesome -->
-    <link href="{% static 'assets/fontawesome/css/fontawesome.css' %}" rel="stylesheet" />
-    <link href="{% static 'assets/fontawesome/css/solid.css' %}" rel="stylesheet" />
-
+    <!-- Boxicons -->
+    <link rel="stylesheet" href="{% static 'assets/boxicons/fonts/basic/boxicons.min.css' %}">
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{% static 'assets/css/login.css' %}" />
     <link rel="stylesheet" href="{% static 'assets/css/carrusel_login.css' %}" />
@@ -43,16 +40,16 @@
                                 <form id="login-form" method="post">
                                     {% csrf_token %}
                                     <div class="input-group mb-3">
-                                        <div class="input-group-text"><i class="fa-solid fa-user"></i></div>
+                                        <div class="input-group-text"><i class="bx bxs-user"></i></div>
                                         <input type="text" name="username" class="form-control" placeholder="Usuario"
                                             required />
                                     </div>
                                     <div class="input-group mb-3">
-                                        <div class="input-group-text"><i class="fa-solid fa-lock"></i></div>
+                                        <div class="input-group-text"><i class="bx bxs-lock"></i></div>
                                         <input type="password" name="password" id="password" class="form-control"
                                             placeholder="Contraseña" required />
                                         <button type="button" class="btn btn-outline-secondary" id="togglePassword">
-                                            <i class="fa-solid fa-eye"></i>
+                                            <i class="bx bxs-eye"></i>
                                         </button>
                                     </div>
                                     <div class="row">

@@ -29,7 +29,7 @@ class Supplier(models.Model):
 
 class Stock(models.Model):
     quantity = models.IntegerField(null=False, verbose_name='Cantidad de relleno disponible')
-    fk_food_type = models.ForeignKey(Food_Type, on_delete=models.CASCADE)
+    fk_food_filling = models.ForeignKey(Food_Filling, on_delete=models.CASCADE)
     fk_supplier = models.ForeignKey(Supplier, on_delete=models.CASCADE)
 
     class Meta:
