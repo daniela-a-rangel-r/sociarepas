@@ -1,6 +1,14 @@
 from django.db import models
 from food_type.models import Food_Type
 
+SUPPLIER_CHOICES = [
+    (1, 'Empresas Polar'),
+    (2, 'Granos Pantera'),
+    (3, 'Alimentos Mary'),
+    (4, 'Hiper Verduras de Aragua C.A'),
+    (5, 'Embutidos Frío Carnes')
+]
+
 class Food_Filling(models.Model):
     name = models.CharField(max_length=45, null=False, verbose_name='Tipo de relleno')
     fk_food_type = models.ForeignKey(Food_Type, on_delete=models.CASCADE)
@@ -9,7 +17,7 @@ class Food_Filling(models.Model):
         db_table = 'food_filling'
         
 class Supplier(models.Model):
-    name = models.CharField(max_length=45, null=False, verbose_name='Proveedor')
+    supplier = models.IntegerField(null=True, choices=SUPPLIER_CHOICES, verbose_name='Proveedor')
 
     class Meta:
         db_table = 'supplier'
