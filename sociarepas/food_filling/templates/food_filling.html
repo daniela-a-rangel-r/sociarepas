@@ -1,6 +1,7 @@
 {% extends 'home.html' %}
 {% block content %}
 {% load static %}
+{% load widget_tweaks %}
 
 <div class="head-title">
     <div class="left">
@@ -10,6 +11,9 @@
 
 <div class="table-data">
     <div class="order">
+        <button class="btn btn-md btn-primary" data-bs-toggle="modal" data-bs-target="#register-food_filling-modal">
+            <i class="bx bx-plus"></i> <strong>Añadir Relleno</strong>
+        </button>
         <table id="datatable-food_filling">
             <thead>
                 <tr>
@@ -39,8 +43,39 @@
         </table>
     </div>
 </div>
+
+<!-- Modal de Registro de Relleno -->
+<div class="modal fade" id="register-food_filling-modal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="registerModalLabel">Añadir Relleno</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="food_filling-form" action="{% url 'food_filling:food_filling_create' %}" method="post">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <label for="food_filling_name">Nombre</label>
+                    <div class="mb-3">
+                        {{ food_filling_create_form.name|add_class:"form-control" }}
+                    </div>
+                    <label for="food_filling_quantity">Cantidad</label>
+                    <div class="mb-3">
+                        {{ food_filling_create_form.quantity|add_class:"form-control numeric-only" }}
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 {% endblock %}
 
 {% block extra_js %}
-<script src="{% static 'assets/js/datatable-food_filling.js' %}"></script>
+<script src="{% static 'assets/js/food_filling/datatable-food_filling.js' %}"></script>
+<script src="{% static 'assets/js/food_filling/numeric-only.js' %}"></script>
+<script src="{% static 'assets/js/food_filling/sweet-alert-food_filling.js' %}"></script>
 {% endblock %}

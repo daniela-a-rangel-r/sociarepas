@@ -95,7 +95,7 @@ body {
 	margin-top: 48px;
 }
 #sidebar .side-menu li {
-	height: 48px;
+	/* height: 48px; */
 	background: transparent;
 	margin-left: 6px;
 	border-radius: 48px 0 0 48px;
@@ -594,4 +594,32 @@ body {
 .card-arepa{
 	width: 4rem;
 	padding: 0.5rem;
+}
+
+/* Mejora el comportamiento del submenú desplegable */
+#sidebar .side-menu .collapse {
+    position: static !important;
+    background: transparent;
+    box-shadow: none;
+    margin: 0;
+    padding-left: 2.5rem;
+    transition: height 0.3s ease;
+    overflow: hidden;
+}
+
+#sidebar .side-menu .collapse.show {
+    height: auto !important;
+    overflow: visible;
+    padding-bottom: 0.5rem;
+}
+
+/* Opcional: mejora visual para los ítems del submenú */
+#sidebar .side-menu .collapse li a {
+    font-size: 15px;
+    padding-left: 0.5rem;
+}
+#sidebar .side-menu li > a {
+    height: 48px; /* Así solo los enlaces principales tienen altura fija */
+    display: flex;
+    align-items: center;
 }

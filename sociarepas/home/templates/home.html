@@ -43,11 +43,33 @@
                     <span class="text">Productos</span>
                 </a>
             </li>
-            <li>
-                <a href="{% url 'home:order' %}">
-                    <i class='bx  bx-list-ul-square'></i>
-                    <span class="text">Pedidos</span>
+            <!-- Menú desplegable -->
+            <li class="dropdown" id="sidebar-caja">
+                <a href="#" class="dropdown-toggle" data-bs-toggle="collapse" data-bs-target="#submenu-caja"
+                    aria-expanded="false">
+                    <i class='bx bx-cabinet'></i>
+                    <span class="text">Caja</span>
                 </a>
+                <ul class="collapse list-unstyled ps-4" id="submenu-caja">
+                    <li>
+                        <a href="">
+                            <i class='bx bx-user'></i>
+                            <span class="text">Clientes</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="">
+                            <i class='bx bx-list-ul-square'></i>
+                            <span class="text">Pedidos</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="">
+                            <i class='bx bx-receipt'></i>
+                            <span class="text">Facturas</span>
+                        </a>
+                    </li>
+                </ul>
             </li>
             <li>
                 <a href="{% url 'login:logout' %}" class="logout">
