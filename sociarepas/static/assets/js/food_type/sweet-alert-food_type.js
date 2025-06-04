@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const form = document.getElementById('food_type-form');
+    const form = document.getElementById('create_food_type-form');
     if (form) {
         form.addEventListener('submit', function (e) {
             e.preventDefault();
@@ -59,6 +59,60 @@ function getCookie(name) {
     }
     return cookieValue;
 }
+
+//Editar
+
+document.addEventListener('DOMContentLoaded', function () {
+    const editForm = document.getElementById('edit_food_type-form');
+
+    document.querySelectorAll('.edit-food_type-button').forEach(button => {
+        button.addEventListener('click', function () {
+            const id = this.dataset.id;
+            const name = this.dataset.name;
+            const price = this.dataset.price;
+
+            document.querySelector('#edit_food_type-form input[name="name"]').value = name;
+            document.querySelector('#edit_food_type-form input[name="price"]').value = price;
+
+            const originalAction = document.getElementById('edit_food_type-form').getAttribute('data-base-action');
+            document.getElementById('edit_food_type-form').setAttribute('action', originalAction.replace('0', id));
+
+            const modal = new bootstrap.Modal(document.getElementById('edit-food_type-modal'));
+            modal.show();
+        });
+    });
+
+    if (editForm) {
+        editForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const formData = new FormData(this);
+            fetch(this.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'X-CSRFToken': this.querySelector('[name=csrfmiddlewaretoken]').value
+                }
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        Swal.fire('¡Actualizado!', data.message, 'success').then(() => {
+                            window.location.reload();
+                        });
+                    } else {
+                        Swal.fire('Error', data.message, 'error');
+                    }
+                })
+                .catch(() => {
+                    Swal.fire('Error', 'Ocurrió un error al procesar la solicitud.', 'error');
+                });
+        });
+    }
+});
+
+
 
 //Eliminar
 $(document).on('click', '.delete-food_type-button', function () {
