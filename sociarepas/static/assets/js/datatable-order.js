@@ -16,5 +16,9 @@ $(document).ready(function () {
                 "sPrevious": "Anterior"
             },
         },
+        paging: true,
+        searching: true,
+        responsive: true,
+        lengthChange: true,
     });
 });

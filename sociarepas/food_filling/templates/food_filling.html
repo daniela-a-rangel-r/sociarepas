@@ -13,52 +13,28 @@
         <table id="datatable-food_filling">
             <thead>
                 <tr>
-                    <th>User</th>
-                    <th>Date Order</th>
-                    <th>Status</th>
+                    <th>#</th>
+                    <th>Nombre</th>
+                    <th>Cantidad Disponible</th>
+                    <th>Opciones</th>
                 </tr>
             </thead>
             <tbody>
+                {% for food_filling in food_filling %}
                 <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ food_filling.name }}</td>
+                    <td>{{ food_filling.quantity }} gr</td>
                     <td>
-                        <img src="">
-                        <p>John Doe</p>
+                        <button class="btn btn-sm btn-primary edit-food_filling-button" data-id="{{ food_filling.id }}">
+                            <i class="bx bx-pencil"></i>
+                        </button>
+                        <button class="btn btn-danger btn-sm delete-food_filling-button" data-id="{{ food_filling.id }}">
+                            <i class="bx bx-trash"></i>
+                        </button>
                     </td>
-                    <td>01-10-2021</td>
-                    <td><span class="status completed">Completed</span></td>
                 </tr>
-                <tr>
-                    <td>
-                        <img src="">
-                        <p>John Doe</p>
-                    </td>
-                    <td>01-10-2021</td>
-                    <td><span class="status pending">Pending</span></td>
-                </tr>
-                <tr>
-                    <td>
-                        <img src="">
-                        <p>John Doe</p>
-                    </td>
-                    <td>01-10-2021</td>
-                    <td><span class="status process">Process</span></td>
-                </tr>
-                <tr>
-                    <td>
-                        <img src="">
-                        <p>John Doe</p>
-                    </td>
-                    <td>01-10-2021</td>
-                    <td><span class="status pending">Pending</span></td>
-                </tr>
-                <tr>
-                    <td>
-                        <img src="">
-                        <p>John Doe</p>
-                    </td>
-                    <td>01-10-2021</td>
-                    <td><span class="status completed">Completed</span></td>
-                </tr>
+                {% endfor %}
             </tbody>
         </table>
     </div>
