@@ -102,30 +102,32 @@ body {
 	padding: 4px;
 }
 #sidebar .side-menu li.active {
-	background: var(--grey);
-	position: relative;
+    background: var(--grey);
+    position: relative;
+    border-radius: 48px 0 0 48px; /* Solo redondea el lado izquierdo */
+    overflow: visible; /* Permite que el pseudo-elemento sobresalga */
 }
-#sidebar .side-menu li.active::before {
-	content: '';
-	position: absolute;
-	width: 40px;
-	height: 40px;
-	border-radius: 50%;
-	top: -40px;
-	right: 0;
-	box-shadow: 20px 20px 0 var(--grey);
-	z-index: -1;
-}
+
+/* Esquina derecha redondeada hacia afuera */
 #sidebar .side-menu li.active::after {
-	content: '';
-	position: absolute;
-	width: 40px;
-	height: 40px;
-	border-radius: 50%;
-	bottom: -40px;
-	right: 0;
-	box-shadow: 20px -20px 0 var(--grey);
-	z-index: -1;
+    content: '';
+    position: absolute;
+    top: 0;
+    right: -24px; /* Ajusta según el radio */
+    width: 48px;
+    height: 100%;
+    background: var(--grey);
+    border-top-right-radius: 48px;
+    border-bottom-right-radius: 48px;
+    z-index: 1;
+}
+#sidebar .side-menu li.active::before,
+#sidebar .side-menu li.active::after {
+    box-shadow: none; /* Quita los efectos circulares */
+}
+#sidebar .side-menu.top li.active a {
+    color: var(--blue); /* Letra azul */
+    background: transparent; /* Sin fondo blanco en el enlace */
 }
 #sidebar .side-menu li a {
 	width: 100%;
