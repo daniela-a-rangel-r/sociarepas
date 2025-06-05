@@ -62,54 +62,46 @@ function getCookie(name) {
 
 //Editar
 
-document.addEventListener('DOMContentLoaded', function () {
-    const editForm = document.getElementById('edit_food_type-form');
+document.querySelectorAll('.edit-food_type-button').forEach(button => {
+    button.addEventListener('click', function () {
+        const id = this.dataset.id;
 
-    document.querySelectorAll('.edit-food_type-button').forEach(button => {
-        button.addEventListener('click', function () {
-            const id = this.dataset.id;
-            const name = this.dataset.name;
-            const price = this.dataset.price;
+        fetch(`/food_type/get_food_type/${id}/`, {
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                const form = document.getElementById('edit_food_type-form');
+                const baseAction = form.getAttribute('data-base-action');
+                form.setAttribute('action', baseAction.replace('0', id));
 
-            document.querySelector('#edit_food_type-form input[name="name"]').value = name;
-            document.querySelector('#edit_food_type-form input[name="price"]').value = price;
+                form.querySelector('input[name="name"]').value = data.data.name;
+                form.querySelector('input[name="price"]').value = data.data.price;
 
-            const originalAction = document.getElementById('edit_food_type-form').getAttribute('data-base-action');
-            document.getElementById('edit_food_type-form').setAttribute('action', originalAction.replace('0', id));
+                // Preseleccionar rellenos
+                const selectedFillings = data.data.fillings.map(String); // asegúrate que sean strings
+                const options = form.querySelectorAll('select[name="fillings"] option, input[name="fillings"]');
 
-            const modal = new bootstrap.Modal(document.getElementById('edit-food_type-modal'));
-            modal.show();
+                options.forEach(option => {
+                    if (selectedFillings.includes(option.value)) {
+                        option.selected = true; // para select
+                        option.checked = true;  // para checkbox
+                    } else {
+                        option.selected = false;
+                        option.checked = false;
+                    }
+                });
+
+                const modal = new bootstrap.Modal(document.getElementById('edit-food_type-modal'));
+                modal.show();
+            } else {
+                Swal.fire('Error', data.message, 'error');
+            }
         });
     });
-
-    if (editForm) {
-        editForm.addEventListener('submit', function (e) {
-            e.preventDefault();
-
-            const formData = new FormData(this);
-            fetch(this.action, {
-                method: 'POST',
-                body: formData,
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest',
-                    'X-CSRFToken': this.querySelector('[name=csrfmiddlewaretoken]').value
-                }
-            })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.status === 'success') {
-                        Swal.fire('¡Actualizado!', data.message, 'success').then(() => {
-                            window.location.reload();
-                        });
-                    } else {
-                        Swal.fire('Error', data.message, 'error');
-                    }
-                })
-                .catch(() => {
-                    Swal.fire('Error', 'Ocurrió un error al procesar la solicitud.', 'error');
-                });
-        });
-    }
 });
 
 

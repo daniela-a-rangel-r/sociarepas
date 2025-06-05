@@ -63,6 +63,10 @@
                     <div class="mb-3">
                         {{ food_type_create_form.price|add_class:"form-control numeric-only" }}
                     </div>
+                    <label for="food_type_filling">Rellenos</label>
+                    <div class="mb-3">
+                        {{ food_type_create_form.fillings|add_class:"form-select" }}
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
@@ -91,6 +95,10 @@
                     <label for="food_type_price">Precio</label>
                     <div class="mb-3">
                         {{ food_type_edit_form.price|add_class:"form-control numeric-only" }}
+                    </div>
+                    <label for="food_type_filling">Rellenos</label>
+                    <div class="mb-3">
+                        {{ food_type_edit_form.fillings|add_class:"form-control" }}
                     </div>
 
                 </div>

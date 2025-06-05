@@ -15,6 +15,9 @@ class Food_Filling(models.Model):
 
     class Meta:
         db_table = 'food_filling'
+        
+    def __str__(self):
+        return self.name
 
 class Food_Filling_Type_Details(models.Model):
     fk_food_filling = models.ForeignKey(Food_Filling, on_delete=models.CASCADE)
