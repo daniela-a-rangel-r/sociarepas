@@ -625,3 +625,10 @@ body {
     display: flex;
     align-items: center;
 }
+
+
+#sidebar.modal-sidebar-backdrop {
+    pointer-events: none;
+    filter: blur(2px) brightness(0.7);
+    transition: filter 0.3s;
+}

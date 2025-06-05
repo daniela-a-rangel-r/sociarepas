@@ -97,3 +97,15 @@ switchMode.addEventListener('change', function () {
 		document.body.classList.remove('dark');
 	}
 })
+
+document.addEventListener('DOMContentLoaded', function () {
+    const sidebar = document.getElementById('sidebar');
+    // Cuando se muestra una modal
+    document.addEventListener('show.bs.modal', function () {
+        sidebar.classList.add('modal-sidebar-backdrop');
+    });
+    // Cuando se oculta una modal
+    document.addEventListener('hidden.bs.modal', function () {
+        sidebar.classList.remove('modal-sidebar-backdrop');
+    });
+});
