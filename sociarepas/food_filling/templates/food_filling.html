@@ -28,13 +28,16 @@
                 <tr>
                     <td>{{ forloop.counter }}</td>
                     <td>{{ food_filling.name }}</td>
-                    <td>{{ food_filling.quantity }} gr</td>
+                    <td>{{ food_filling.total_quantity|default:'0' }} gr</td>
                     <td>
                         <button class="btn btn-sm btn-primary edit-food_filling-button" data-id="{{ food_filling.id }}" data-name="{{ food_filling.name }}" data-quantity="{{ food_filling.quantity }}" data-bs-toggle="modal" data-bs-target="#edit-food_filling-modal">
                             <i class="bx bx-pencil"></i>
                         </button>
                         <button class="btn btn-danger btn-sm delete-food_filling-button" data-id="{{ food_filling.id }}">
                             <i class="bx bx-trash"></i>
+                        </button>
+                        <button class="btn btn-success btn-sm request-stock-button" data-id="{{ food_filling.id }}" data-name="{{ food_filling.name }}" data-bs-toggle="modal" data-bs-target="#request-stock-modal">
+                            <i class="bx bx-cart"></i>
                         </button>
                     </td>
                 </tr>
@@ -45,7 +48,8 @@
 </div>
 
 <!-- Modal de Registro de Relleno -->
-<div class="modal fade" id="register-food_filling-modal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
+<div class="modal fade" id="register-food_filling-modal" tabindex="-1" aria-labelledby="registerModalLabel"
+    aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -55,13 +59,17 @@
             <form id="food_filling-form" action="{% url 'food_filling:food_filling_create' %}" method="post">
                 {% csrf_token %}
                 <div class="modal-body">
-                    <label for="food_filling_name">Nombre</label>
                     <div class="mb-3">
-                        {{ food_filling_create_form.name|add_class:"form-control" }}
+                        <label for="name">Nombre del Relleno</label>
+                        {{ food_filling_create_form.name }}
                     </div>
-                    <label for="food_filling_quantity">Cantidad</label>
                     <div class="mb-3">
-                        {{ food_filling_create_form.quantity|add_class:"form-control numeric-only" }}
+                        <label for="fk_supplier">Proveedor</label>
+                        {{ food_filling_create_form.fk_supplier }}
+                    </div>
+                    <div class="mb-3">
+                        <label for="initial_quantity">Cantidad Inicial</label>
+                        {{ food_filling_create_form.initial_quantity }}
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -72,6 +80,57 @@
         </div>
     </div>
 </div>
+
+<!-- Modal para solicitar más stock -->
+<div class="modal fade" id="request-stock-modal" tabindex="-1" aria-labelledby="requestStockModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="requestStockModalLabel">Solicitar Stock</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="request-stock-form" action="{% url 'food_filling:stock_request_create' %}" method="post">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <input type="hidden" name="fk_food_filling" id="request-stock-food-filling-id">
+                    <div class="mb-3">
+                        <label for="name">Cantidad a solicitar</label>
+                        {{ stock_request_form.requested_quantity }}
+                    </div>
+                    <div class="mb-3">
+                        <label for="fk_supplier">Proveedor</label>
+                        {{ stock_request_form.fk_supplier }}
+                    </div>
+                    
+
+
+                    <!-- <input type="hidden" name="fk_food_filling" id="request-stock-food-filling-id"> -->
+
+                    <!-- <div class="mb-3">
+                        <label for="requested_quantity">Cantidad a solicitar</label>
+                        <input type="number" name="requested_quantity" id="requested_quantity" class="form-control" min="1" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="fk_supplier">Proveedor</label>
+                        <select name="fk_supplier" id="fk_supplier" class="form-control" required>
+                            {% for supplier in suppliers %}
+                            <option value="{{ supplier.id }}">{{ supplier.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div> -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary">Solicitar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+
 
 <!-- Modal de edicion de relleno -->
 <div class="modal fade" id="edit-food_filling-modal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">

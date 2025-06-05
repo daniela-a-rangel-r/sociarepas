@@ -11,7 +11,6 @@ SUPPLIER_CHOICES = [
 
 class Food_Filling(models.Model):
     name = models.CharField(max_length=45, null=False, verbose_name='Tipo de relleno')
-    quantity = models.IntegerField(null=True, verbose_name='Cantidad de relleno por unidad')
 
     class Meta:
         db_table = 'food_filling'

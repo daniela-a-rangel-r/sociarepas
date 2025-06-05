@@ -22,6 +22,7 @@ document.addEventListener('DOMContentLoaded', function () {
                             title: '¡Éxito!',
                             text: data.message
                         }).then(() => {
+                            
                             window.location.reload();
                         });
                     } else {
@@ -99,6 +100,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 .then(data => {
                     if (data.status === 'success') {
                         Swal.fire('¡Actualizado!', data.message, 'success').then(() => {
+                            
                             window.location.reload();
                         });
                     } else {
@@ -156,6 +158,7 @@ $(document).on('click', '.delete-food_filling-button', function () {
                             title: '¡Eliminado!',
                             text: 'El relleno ha sido eliminado correctamente.'
                         }).then(() => {
+                            
                             window.location.reload();
                         });
                     } else {
@@ -169,4 +172,67 @@ $(document).on('click', '.delete-food_filling-button', function () {
                 });
         }
     });
+});
+
+//Solicitud de Stock
+document.addEventListener('DOMContentLoaded', function () {
+    const requestStockButtons = document.querySelectorAll('.request-stock-button');
+    const foodFillingIdInput = document.getElementById('request-stock-food-filling-id');
+    const foodFillingNameInput = document.getElementById('request-stock-food-filling-name');
+
+    requestStockButtons.forEach(button => {
+        button.addEventListener('click', function () {
+            const foodFillingId = this.dataset.id;
+            const foodFillingName = this.dataset.name;
+
+            foodFillingIdInput.value = foodFillingId;
+            foodFillingNameInput.value = foodFillingName;
+        });
+    });
+});
+
+document.addEventListener('DOMContentLoaded', function () {
+    const stockRequestForm = document.getElementById('request-stock-form');
+
+    if (stockRequestForm) {
+        stockRequestForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const formData = new FormData(stockRequestForm);
+
+            fetch(stockRequestForm.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'X-CSRFToken': stockRequestForm.querySelector('[name=csrfmiddlewaretoken]').value
+                }
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        Swal.fire({
+                            icon: 'success',
+                            title: '¡Éxito!',
+                            text: data.message
+                        }).then(() => {
+                            window.location.reload();
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: data.message || 'Ocurrió un error al procesar la solicitud.'
+                        });
+                    }
+                })
+                .catch(() => {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error inesperado',
+                        text: 'Ocurrió un error al procesar la solicitud.'
+                    });
+                });
+        });
+    }
 });
