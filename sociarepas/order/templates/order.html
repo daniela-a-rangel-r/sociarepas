@@ -124,6 +124,13 @@
 
 <!-- estilo de las cartas -->
 <style>
+
+
+    .order-card {
+        width: 320px;
+        flex: 1 1 320px;
+    }
+
     .cards-container {
         display: flex;
         flex-wrap: wrap;
@@ -136,7 +143,7 @@
         border-radius: 12px;
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
         padding: 20px;
-        width: 260px;
+        width: 4360px;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -225,6 +232,7 @@
         overflow-x: auto;
     }
 </style>
+
 
 <!-- Contador de arepas  -->
 <script>
@@ -427,16 +435,98 @@
 </script>
 
 <script>
-function backToCart() {
-    // Cierra la modal de cliente
-    var clientModal = bootstrap.Modal.getInstance(document.getElementById('clientModal'));
-    clientModal.hide();
-    // Abre la modal del carrito
-    setTimeout(function () {
-        var cartModal = new bootstrap.Modal(document.getElementById('cartModal'));
-        cartModal.show();
-    }, 400); // Espera breve para evitar conflicto de animaciones
-}
+    function backToCart() {
+        // Cierra la modal de cliente
+        var clientModal = bootstrap.Modal.getInstance(document.getElementById('clientModal'));
+        clientModal.hide();
+        // Abre la modal del carrito
+        setTimeout(function () {
+            var cartModal = new bootstrap.Modal(document.getElementById('cartModal'));
+            cartModal.show();
+        }, 400); // Espera breve para evitar conflicto de animaciones
+    }
+</script>
+
+<style>
+    /* Ajuste para centrar la modal según el sidebar */
+    body.sidebar-open .modal.show .modal-dialog {
+        margin-left: var(--sidebar-width, 250px);
+        /* Cambia 250px por el ancho real de tu sidebar */
+        left: 0;
+        right: 0;
+        transform: none;
+    }
+
+    .modal.show .modal-dialog {
+        margin-left: auto;
+        margin-right: auto;
+        left: 0;
+        right: 0;
+        transform: none;
+    }
+
+    @media (max-width: 768px) {
+        body.sidebar-open .modal.show .modal-dialog {
+            margin-left: 0 !important;
+        }
+    }
+</style>
+
+<script>
+    // Cambia este valor si tu sidebar tiene otro ancho
+    const SIDEBAR_WIDTH = 250; // px
+
+    function adjustModalPosition() {
+        const body = document.body;
+        const modals = document.querySelectorAll('.modal.show .modal-dialog');
+        modals.forEach(modal => {
+            // Restablece estilos primero
+            modal.style.marginLeft = '';
+            modal.style.marginRight = '';
+            modal.style.left = '';
+            modal.style.right = '';
+            modal.style.transform = '';
+
+            if (body.classList.contains('sidebar-open') && window.innerWidth > 968) {
+                // Calcula el ancho disponible
+                const availableWidth = window.innerWidth - SIDEBAR_WIDTH;
+                const modalWidth = modal.offsetWidth;
+                // Centra la modal en el espacio disponible
+                const left = SIDEBAR_WIDTH + (availableWidth - modalWidth) / 2;
+                modal.style.position = 'fixed';
+                modal.style.left = left + 'px';
+                modal.style.right = 'auto';
+                modal.style.marginLeft = '0';
+                modal.style.marginRight = '0';
+                modal.style.transform = 'none';
+            } else {
+                // Centrado normal
+                modal.style.position = '';
+                modal.style.left = '';
+                modal.style.right = '';
+                modal.style.marginLeft = 'auto';
+                modal.style.marginRight = 'auto';
+                modal.style.transform = 'none';
+            }
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        // Ajusta al mostrar cualquier modal
+        document.querySelectorAll('.modal').forEach(modalEl => {
+            modalEl.addEventListener('shown.bs.modal', adjustModalPosition);
+        });
+
+        // Ajusta al cambiar el tamaño de la ventana
+        window.addEventListener('resize', adjustModalPosition);
+
+        // Si tienes un botón para abrir/cerrar el sidebar, llama a adjustModalPosition() después de cambiar el estado
+        // Ejemplo:
+        // document.getElementById('sidebarToggle').addEventListener('click', function() {
+        //     document.body.classList.toggle('sidebar-open');
+        //     setTimeout(adjustModalPosition, 300);
+        // });
+    });
 </script>
 {% endblock %}
 
