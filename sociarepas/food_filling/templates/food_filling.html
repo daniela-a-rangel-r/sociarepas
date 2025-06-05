@@ -30,7 +30,7 @@
                     <td>{{ food_filling.name }}</td>
                     <td>{{ food_filling.quantity }} gr</td>
                     <td>
-                        <button class="btn btn-sm btn-primary edit-food_filling-button" data-id="{{ food_filling.id }}">
+                        <button class="btn btn-sm btn-primary edit-food_filling-button" data-id="{{ food_filling.id }}" data-name="{{ food_filling.name }}" data-quantity="{{ food_filling.quantity }}" data-bs-toggle="modal" data-bs-target="#edit-food_filling-modal">
                             <i class="bx bx-pencil"></i>
                         </button>
                         <button class="btn btn-danger btn-sm delete-food_filling-button" data-id="{{ food_filling.id }}">
@@ -64,6 +64,37 @@
                         {{ food_filling_create_form.quantity|add_class:"form-control numeric-only" }}
                     </div>
                 </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de edicion de relleno -->
+<div class="modal fade" id="edit-food_filling-modal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel">Editar Producto</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="edit_food_filling-form" data-base-action="{% url 'food_filling:food_filling_edit' 0 %}" action="{% url 'food_filling:food_filling_edit' 0 %}" method="post">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <label for="food_filling_name">Nombre</label>
+                    <div class="mb-3">
+                        {{ food_filling_edit_form.name|add_class:"form-control" }}
+                    </div>
+                    <label for="food_filling_quantity">Cantidad</label>
+                    <div class="mb-3">
+                        {{ food_filling_edit_form.quantity|add_class:"form-control numeric-only" }}
+                    </div>
+
+                </div>
+
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                     <button type="submit" class="btn btn-primary">Guardar</button>

@@ -1,14 +1,17 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from . models import Food_Filling
-from . forms import Food_FillingCreate
+from . forms import Food_FillingCreate,Food_FillingEdit
 from django.http.response import JsonResponse
 
 def food_filling(request):
     food_filling = Food_Filling.objects.all()
     food_filling_create_form = Food_FillingCreate()
+    food_filling_edit_form = Food_FillingEdit()
+
     return render(request, 'food_filling.html',{
         'food_filling' : food_filling,
-        'food_filling_create_form': food_filling_create_form
+        'food_filling_create_form': food_filling_create_form,
+        'food_filling_edit_form': food_filling_edit_form
     })
 
 def food_filling_create(request):
@@ -29,6 +32,36 @@ def food_filling_create(request):
     
     return render(request, 'food_filling.html', {
         'food_filling_create_form': food_filling_create_form
+    })
+
+def food_filling_edit(request, food_filling_id):
+    food_filling = get_object_or_404(Food_Filling, pk=food_filling_id)
+
+    if request.method == "POST":
+        food_filling_edit_form = food_filling_edit(request.POST, instance=food_filling)
+        if food_filling_edit_form.is_valid():
+            name = food_filling_edit_form.cleaned_data['name'].strip()
+            if Food_Filling.objects.filter(name__iexact=name).exclude(pk=food_filling.pk).exists():
+                return JsonResponse({'status': 'error', 'message': 'Ya existe un producto con este nombre.'})
+
+            try:
+                food_filling_edit_form.save()
+                return JsonResponse({'status': 'success', 'message': 'El producto se ha actualizado correctamente.'})
+            except Exception as e:
+                return JsonResponse({'status': 'error', 'message': f'Error inesperado: {str(e)}'})
+        else:
+            errors = []
+            for field, error_list in food_filling_edit_form.errors.items():
+                for error in error_list:
+                    errors.append(f'Error en el campo: {error}')
+            return JsonResponse({'status': 'error', 'message': ' '.join(errors)})
+    
+    else:
+
+        food_filling_edit_form = Food_FillingEdit(instance=food_filling)
+
+    return render(request, 'food_filling.html', {
+        'food_filling_edit_form': food_filling_edit_form
     })
 
 def food_filling_delete(request, food_filling_id):

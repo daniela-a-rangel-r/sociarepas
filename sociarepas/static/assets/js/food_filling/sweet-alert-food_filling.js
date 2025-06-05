@@ -60,6 +60,59 @@ function getCookie(name) {
     return cookieValue;
 }
 
+//Editar
+
+document.addEventListener('DOMContentLoaded', function () {
+    const editForm = document.getElementById('edit_food_filling-form');
+
+    document.querySelectorAll('.edit-food_filling-button').forEach(button => {
+        button.addEventListener('click', function () {
+            const id = this.dataset.id;
+            const name = this.dataset.name;
+            const quantity = this.dataset.quantity;
+
+            document.querySelector('#edit_food_filling-form input[name="name"]').value = name;
+            document.querySelector('#edit_food_filling-form input[name="quantity"]').value = quantity;
+
+            const originalAction = document.getElementById('edit_food_filling-form').getAttribute('data-base-action');
+            document.getElementById('edit_food_filling-form').setAttribute('action', originalAction.replace('0', id));
+
+            const modal = new bootstrap.Modal(document.getElementById('edit-food_filling-modal'));
+            modal.show();
+        });
+    });
+
+    if (editForm) {
+        editForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const formData = new FormData(this);
+            fetch(this.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'X-CSRFToken': this.querySelector('[name=csrfmiddlewaretoken]').value
+                }
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        Swal.fire('¡Actualizado!', data.message, 'success').then(() => {
+                            window.location.reload();
+                        });
+                    } else {
+                        Swal.fire('Error', data.message, 'error');
+                    }
+                })
+                .catch(() => {
+                    Swal.fire('Error', 'Ocurrió un error al procesar la solicitud.', 'error');
+                });
+        });
+    }
+});
+
+
 //Eliminar
 $(document).on('click', '.delete-food_filling-button', function () {
     const food_fillingId = $(this).data('id');
