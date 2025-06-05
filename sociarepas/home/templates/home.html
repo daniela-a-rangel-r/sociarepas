@@ -2,6 +2,7 @@
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -18,6 +19,7 @@
     <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
     <title>SociArepas</title>
 </head>
+
 <body>
     <section id="sidebar">
         <a href="{% url 'home:dashboard' %}" class="brand">
@@ -38,8 +40,14 @@
                 </a>
             </li>
             <li>
+                <a href="{% url 'home:order' %}">
+                    <i class='bx bx-receipt'></i>
+                    <span class="text">Ordenes</span>
+                </a>
+            </li>
+            <li>
                 <a href="{% url 'home:food_filling' %}">
-                    <i class='bx  bx-package'></i> 
+                    <i class='bx  bx-package'></i>
                     <span class="text">Productos</span>
                 </a>
             </li>
