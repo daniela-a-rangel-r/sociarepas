@@ -37,7 +37,3 @@ class Order_Details(models.Model):
 
     class Meta:
         db_table = 'order_details'
-        
-        
-        
-        

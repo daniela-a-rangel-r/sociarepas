@@ -79,7 +79,7 @@
                         aria-label="Cerrar"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="clientForm" autocomplete="off">
+                    <form id="clientForm" method="POST" action="{% url 'order:process_order' %}" autocomplete="off">
                         <div class="row g-3 mb-3">
                             <div class="col-md-6">
                                 <label class="form-label">Nombre</label>
@@ -97,6 +97,8 @@
                                 <label class="form-label">Número telefónico</label>
                                 <input type="tel" class="form-control" required>
                             </div>
+                            <input type="hidden" name="payment_type" value="1">
+                            <input type="hidden" name="cart" id="cartInput">
                         </div>
                         <div class="d-flex justify-content-between align-items-center border-top pt-3">
                             <span class="fw-bold fs-5">Total a pagar:</span>
@@ -451,6 +453,8 @@
     document.addEventListener('DOMContentLoaded', function () {
         document.getElementById('clientForm').addEventListener('submit', function (e) {
             e.preventDefault();
+            const cartInput = document.getElementById('cartInput');
+            cartInput.value = JSON.stringify(cart); // Convierte el carrito a JSON
             // Aquí puedes agregar la lógica de pago o mostrar otra animación
             alert('¡Pago realizado con éxito!');
             // Cierra la modal
