@@ -19,9 +19,18 @@
     <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
     <title>SociArepas</title>
 </head>
+<script>
+    // Aplica el modo oscuro lo antes posible si está activado
+    try {
+        if (localStorage.getItem('darkMode') === 'enabled') {
+            document.documentElement.classList.add('dark');
+            document.body && document.body.classList.add('dark');
+        }
+    } catch (e) { }
+</script>
 
 <body>
-    
+
     <section id="sidebar">
         <a href="{% url 'home:dashboard' %}" class="brand">
             <i class='bx  bx-cookie'></i>

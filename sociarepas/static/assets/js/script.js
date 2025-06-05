@@ -87,25 +87,36 @@ window.addEventListener('resize', function () {
 })
 
 
-
 const switchMode = document.getElementById('switch-mode');
+
+// Al cargar la página, verifica si el modo oscuro estaba activado
+if (localStorage.getItem('darkMode') === 'enabled') {
+	document.documentElement.classList.add('dark');
+	document.body.classList.add('dark');
+	switchMode.checked = true;
+}
 
 switchMode.addEventListener('change', function () {
 	if (this.checked) {
+		document.documentElement.classList.add('dark');
 		document.body.classList.add('dark');
+		localStorage.setItem('darkMode', 'enabled');
 	} else {
+		document.documentElement.classList.remove('dark');
 		document.body.classList.remove('dark');
+		localStorage.setItem('darkMode', 'disabled');
 	}
-})
+});
+
 
 document.addEventListener('DOMContentLoaded', function () {
-    const sidebar = document.getElementById('sidebar');
-    // Cuando se muestra una modal
-    document.addEventListener('show.bs.modal', function () {
-        sidebar.classList.add('modal-sidebar-backdrop');
-    });
-    // Cuando se oculta una modal
-    document.addEventListener('hidden.bs.modal', function () {
-        sidebar.classList.remove('modal-sidebar-backdrop');
-    });
+	const sidebar = document.getElementById('sidebar');
+	// Cuando se muestra una modal
+	document.addEventListener('show.bs.modal', function () {
+		sidebar.classList.add('modal-sidebar-backdrop');
+	});
+	// Cuando se oculta una modal
+	document.addEventListener('hidden.bs.modal', function () {
+		sidebar.classList.remove('modal-sidebar-backdrop');
+	});
 });

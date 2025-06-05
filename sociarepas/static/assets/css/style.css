@@ -632,3 +632,29 @@ body {
     filter: blur(2px) brightness(0.7);
     transition: filter 0.3s;
 }
+
+/* DataTables modo oscuro */
+body.dark table.dataTable,
+body.dark table.dataTable th,
+body.dark table.dataTable td {
+    background-color: var(--grey) !important;
+    color: var(--dark) !important;
+}
+
+body.dark .dataTables_wrapper .dataTables_paginate .paginate_button,
+body.dark .dataTables_wrapper .dataTables_filter input,
+body.dark .dataTables_wrapper .dataTables_length select {
+    background-color: var(--grey) !important;
+    color: var(--dark) !important;
+    border-color: var(--dark-grey) !important;
+}
+
+body.dark .dataTables_wrapper .dataTables_info {
+    color: var(--dark) !important;
+}
+
+html.dark {
+    --light: #0C0C1E;
+    --grey: #060714;
+    --dark: #FBFBFB;
+}
