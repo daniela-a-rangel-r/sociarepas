@@ -88,44 +88,10 @@
 </body>
 <!-- Sweet Alert -->
 <script src="{% static 'assets/js/sweetalert2@11.js' %}"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const form = document.getElementById('login-form');
-        if (form) {
-            form.addEventListener('submit', function (e) {
-                e.preventDefault();
-                const formData = new FormData(form);
-                fetch("", {
-                    method: "POST",
-                    headers: {
-                        'X-CSRFToken': formData.get('csrfmiddlewaretoken')
-                    },
-                    body: formData
-                })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.status === 'success') {
-                            localStorage.setItem('loginSuccess', data.message);
-                            window.location.href = data.redirect_url; // Esto usará /dashboard/
-                        } else {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Error',
-                                text: data.message,
-                                confirmButtonColor: '#d33'
-                            });
-                        }
-                    });
-            });
-        }
-    });
-</script>
-
-<!-- Sweet Alert -->
-<script src="{% static 'assets/js/sweetalert2@11.js' %}"></script>
 
 <!-- Custom JS -->
-<script src="{% static 'assets/js/login.js' %}"></script>
-<script src="{% static 'assets/js/carrusel_login.js' %}"></script>
+<script src="{% static 'assets/js/login/login.js' %}"></script>
+<script src="{% static 'assets/js/login/carrusel_login.js' %}"></script>
+<script src="{% static 'assets/js/login/sweet-alert-login.js' %}"></script>
 
 </html>
