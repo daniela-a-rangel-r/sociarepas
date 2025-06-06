@@ -18,7 +18,7 @@
         </span>
     </li>
     <li>
-        <i class='bx  bx-package'></i> 
+        <i class='bx  bx-package'></i>
         <span class="text">
             <h3>2834</h3>
             <p>Productos</p>
@@ -36,65 +36,71 @@
 <div class="table-data">
     <div class="order">
         <div class="head">
-            <h3>Productos próximos a abastecer</h3>
+            <h3>Rellenos</h3>
         </div>
         <table id="datatable-dashboard">
             <thead>
                 <tr>
-                    <th>User</th>
-                    <th>Date Order</th>
-                    <th>Status</th>
+                    <th>#</th>
+                    <th>Nombre</th>
+                    <th>Cantidad Disponible</th>
+                    <th>Opciones</th>
                 </tr>
             </thead>
             <tbody>
+                {% for food in food_filling %}
                 <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ food.name }}</td>
+                    <td>{{ food.total_quantity|default:'0' }} gr</td>
                     <td>
-                        <img src="">
-                        <p>John Doe</p>
+                        <button class="btn btn-success btn-sm request-stock-button" data-id="{{ food.id }}"
+                            data-name="{{ food.name }}" data-bs-toggle="modal" data-bs-target="#request-stock-modal">
+                            <i class="bx bx-cart"></i>
+                        </button>
                     </td>
-                    <td>01-10-2021</td>
-                    <td><span class="status completed">Completed</span></td>
                 </tr>
-                <tr>
-                    <td>
-                        <img src="">
-                        <p>John Doe</p>
-                    </td>
-                    <td>01-10-2021</td>
-                    <td><span class="status pending">Pending</span></td>
-                </tr>
-                <tr>
-                    <td>
-                        <img src="">
-                        <p>John Doe</p>
-                    </td>
-                    <td>01-10-2021</td>
-                    <td><span class="status process">Process</span></td>
-                </tr>
-                <tr>
-                    <td>
-                        <img src="">
-                        <p>John Doe</p>
-                    </td>
-                    <td>01-10-2021</td>
-                    <td><span class="status pending">Pending</span></td>
-                </tr>
-                <tr>
-                    <td>
-                        <img src="">
-                        <p>John Doe</p>
-                    </td>
-                    <td>01-10-2021</td>
-                    <td><span class="status completed">Completed</span></td>
-                </tr>
+                {% endfor %}
             </tbody>
         </table>
     </div>
 </div>
+
+<!-- Modal para solicitar más Stock -->
+<div class="modal fade" id="request-stock-modal" tabindex="-1" aria-labelledby="requestStockModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="requestStockModalLabel">Solicitar Stock</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="request-stock-form" action="{% url 'food_filling:stock_request_create' %}" method="post">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <input type="hidden" name="fk_food_filling" id="request-stock-food-filling-id">
+                    <div class="mb-3">
+                        <label for="name">Cantidad a solicitar</label>
+                        {{ stock_request_form.requested_quantity }}
+                    </div>
+                    <div class="mb-3">
+                        <label for="fk_supplier">Proveedor</label>
+                        {{ stock_request_form.fk_supplier }}
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary">Solicitar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 {% endblock %}
 
 {% block extra_js %}
 <script src="{% static 'assets/js/dashboard/datatable-dashboard.js' %}"></script>
 <script src="{% static 'assets/js/dashboard/sweet-alert-dashboard.js' %}"></script>
+<script src="{% static 'assets/js/food_filling/sweet-alert-food_filling.js' %}"></script>
 <script src="{% static 'assets/js/sweetalert2@11.js' %}"></script>
 {% endblock %}

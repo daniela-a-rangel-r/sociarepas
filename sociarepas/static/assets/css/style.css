@@ -44,10 +44,6 @@ body {
 	overflow-x: hidden;
 }
 
-
-
-
-
 /* SIDEBAR */
 #sidebar {
 	position: fixed;
@@ -56,7 +52,7 @@ body {
 	width: 280px;
 	height: 100%;
 	background: var(--light);
-	z-index: 2000;
+	z-index: 1000;
 	font-family: var(--lato);
 	transition: .3s ease;
 	overflow-x: hidden;
@@ -701,13 +697,6 @@ body {
 	/* Así solo los enlaces principales tienen altura fija */
 	display: flex;
 	align-items: center;
-}
-
-
-#sidebar.modal-sidebar-backdrop {
-	pointer-events: none;
-	filter: blur(2px) brightness(0.7);
-	transition: filter 0.3s;
 }
 
 /* DataTables modo oscuro */
