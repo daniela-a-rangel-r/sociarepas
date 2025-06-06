@@ -4,13 +4,16 @@ from django.db import transaction
 from django.http import JsonResponse
 from food_filling.models import Food_Type, Food_Filling_Type_Details, Stock
 from .models import Client, Order, Order_Details, Payment_Type
+from django.contrib.auth.decorators import login_required
 
+@login_required
 def order(request):
     food_types = Food_Type.objects.all()
     return render(request, 'order.html', {
         'food_types': food_types
         })
 
+@login_required
 @transaction.atomic
 def process_order(request):
     if request.method == "POST":
