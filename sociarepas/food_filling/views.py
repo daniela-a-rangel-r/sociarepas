@@ -3,7 +3,9 @@ from . models import Food_Filling, Stock, Supplier
 from . forms import Food_FillingCreate,Food_FillingEdit, StockRequestForm
 from django.http.response import JsonResponse
 from django.db.models import Sum
+from django.contrib.auth.decorators import login_required
 
+@login_required
 def food_filling(request):
     # food_filling = Food_Filling.objects.all()
     food_filling = Food_Filling.objects.annotate(total_quantity=Sum('stock__quantity'))
@@ -20,6 +22,7 @@ def food_filling(request):
         'stock_request_form' : stock_request_form
     })
 
+@login_required
 def food_filling_create(request):
     if request.method == "POST":
         food_filling_create_form = Food_FillingCreate(request.POST)
@@ -54,6 +57,7 @@ def food_filling_create(request):
         'food_filling_create_form': food_filling_create_form
     })
 
+@login_required
 def food_filling_edit(request, food_filling_id):
     food_filling = get_object_or_404(Food_Filling, pk=food_filling_id)
 
@@ -84,6 +88,7 @@ def food_filling_edit(request, food_filling_id):
         'food_filling_edit_form': food_filling_edit_form
     })
 
+@login_required
 def food_filling_delete(request, food_filling_id):
     if request.method == 'POST':
         try:
@@ -96,6 +101,7 @@ def food_filling_delete(request, food_filling_id):
             return JsonResponse({'success': False, 'message': str(e)}, status=500)
     return JsonResponse({'success': False, 'message': 'Método no permitido'}, status=405)
 
+@login_required
 def stock_request_create(request):
     if request.method == "POST":
         stock_request_form = StockRequestForm(request.POST)

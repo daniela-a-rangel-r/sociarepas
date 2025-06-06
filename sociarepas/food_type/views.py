@@ -4,8 +4,9 @@ from . models import Food_Type
 from food_filling.models import Food_Filling_Type_Details
 from . forms import Food_TypeCreate, Food_TypeEdit
 from django.http.response import JsonResponse
+from django.contrib.auth.decorators import login_required
 
-
+@login_required
 def get_food_type(request, food_type_id):
     if request.method == 'GET' and request.headers.get('X-Requested-With') == 'XMLHttpRequest':
         try:
@@ -23,6 +24,7 @@ def get_food_type(request, food_type_id):
         except Food_Type.DoesNotExist:
             return JsonResponse({'status': 'error', 'message': 'Arepa no encontrada.'})
 
+@login_required
 def food_type(request):
     food_type = Food_Type.objects.all()
     food_type_create_form = Food_TypeCreate()
@@ -33,6 +35,7 @@ def food_type(request):
         'food_type_edit_form': food_type_edit_form
     })
 
+@login_required
 def food_type_create(request):
     if request.method == "POST":
         food_type_create_form = Food_TypeCreate(request.POST)
@@ -53,6 +56,7 @@ def food_type_create(request):
         'food_type_create_form': food_type_create_form
     })
 
+@login_required
 def food_type_edit(request, food_type_id):
     food_type = get_object_or_404(Food_Type, pk=food_type_id)
 
@@ -83,6 +87,7 @@ def food_type_edit(request, food_type_id):
         'food_type_edit_form': food_type_edit_form
     })
 
+@login_required
 def food_type_delete(request, food_type_id):
     if request.method == 'POST':
         try:

@@ -79,23 +79,23 @@
                         aria-label="Cerrar"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="clientForm" method="POST" action="{% url 'order:process_order' %}" autocomplete="off">
+                    <form id="clientForm" method="POST" action="" autocomplete="off">
                         <div class="row g-3 mb-3">
                             <div class="col-md-6">
                                 <label class="form-label">Nombre</label>
-                                <input type="text" class="form-control" required>
+                                <input type="text" class="form-control" name="name" required>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">Apellido</label>
-                                <input type="text" class="form-control" required>
+                                <input type="text" class="form-control" name="lastname" required>
                             </div>
                             <div class="col-md-8">
                                 <label class="form-label">Dirección</label>
-                                <input type="text" class="form-control" required>
+                                <input type="text" class="form-control" name="address" required>
                             </div>
                             <div class="col-md-4">
                                 <label class="form-label">Número telefónico</label>
-                                <input type="tel" class="form-control" required>
+                                <input type="tel" class="form-control" name="phone_number" required>
                             </div>
                             <input type="hidden" name="payment_type" value="1">
                             <input type="hidden" name="cart" id="cartInput">
@@ -235,27 +235,27 @@
 
 
 <style>
-/* Contador del carrito arriba a la derecha */
-#cartButton {
-    position: relative;
-}
+    /* Contador del carrito arriba a la derecha */
+    #cartButton {
+        position: relative;
+    }
 
-#cart-count-badge {
-    position: absolute;
-    top: -6px;
-    right: -6px;
-    background: #dc3545;
-    color: #fff;
-    border-radius: 50%;
-    padding: 2px 7px;
-    font-size: 0.8rem;
-    display: none;
-    z-index: 2;
-    min-width: 22px;
-    text-align: center;
-    font-weight: bold;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.15);
-}
+    #cart-count-badge {
+        position: absolute;
+        top: -6px;
+        right: -6px;
+        background: #dc3545;
+        color: #fff;
+        border-radius: 50%;
+        padding: 2px 7px;
+        font-size: 0.8rem;
+        display: none;
+        z-index: 2;
+        min-width: 22px;
+        text-align: center;
+        font-weight: bold;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+    }
 </style>
 
 
@@ -450,16 +450,45 @@
     }
 
     // Opcional: Manejar el envío del formulario de pago
+    // document.addEventListener('DOMContentLoaded', function () {
+    //     document.getElementById('clientForm').addEventListener('submit', function (e) {
+    //         e.preventDefault();
+    //         const cartInput = document.getElementById('cartInput');
+    //         cartInput.value = JSON.stringify(cart); // Convierte el carrito a JSON
+    //         // Aquí puedes agregar la lógica de pago o mostrar otra animación
+    //         alert('¡Pago realizado con éxito!');
+    //         // Cierra la modal
+    //         var clientModal = bootstrap.Modal.getInstance(document.getElementById('clientModal'));
+    //         clientModal.hide();
+    //     });
+    // });
     document.addEventListener('DOMContentLoaded', function () {
         document.getElementById('clientForm').addEventListener('submit', function (e) {
             e.preventDefault();
-            const cartInput = document.getElementById('cartInput');
-            cartInput.value = JSON.stringify(cart); // Convierte el carrito a JSON
-            // Aquí puedes agregar la lógica de pago o mostrar otra animación
-            alert('¡Pago realizado con éxito!');
-            // Cierra la modal
-            var clientModal = bootstrap.Modal.getInstance(document.getElementById('clientModal'));
-            clientModal.hide();
+            const form = e.target;
+            const formData = new FormData(form);
+            formData.append('cart', JSON.stringify(cart));
+            fetch("{% url 'order:process_order' %}", {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                body: formData
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('¡Pedido realizado con éxito!');
+                        // Limpia el carrito y cierra el modal
+                        cart = {};
+                        updateCartModal();
+                        updateCartCount();
+                        var clientModal = bootstrap.Modal.getInstance(document.getElementById('clientModal'));
+                        clientModal.hide();
+                    } else {
+                        alert('Error: ' + data.message);
+                    }
+                });
         });
     });
 </script>
