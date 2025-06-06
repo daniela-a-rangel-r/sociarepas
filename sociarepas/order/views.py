@@ -14,6 +14,27 @@ def order(request):
         })
 
 @login_required
+def bill(request):
+    orders = Order.objects.select_related('fk_client').prefetch_related('order_details_set__fk_payment_type')
+    orders_data = []
+    for order in orders:
+        details = order.order_details_set.all()
+        total_quantity = sum(detail.quantity for detail in details)
+        if details:
+            payment_type_obj = details[0].fk_payment_type
+            payment_type_display = payment_type_obj.get_payment_type_display() if payment_type_obj else ''
+        else:
+            payment_type_display = ''
+        orders_data.append({
+            'order': order,
+            'total_quantity': total_quantity,
+            'payment_type': payment_type_display,
+        })
+    return render(request, 'bill.html', {
+        'orders_data': orders_data
+    })
+    
+@login_required
 @transaction.atomic
 def process_order(request):
     if request.method == "POST":

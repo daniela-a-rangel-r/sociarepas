@@ -197,7 +197,12 @@ document.addEventListener('DOMContentLoaded', function () {
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    alert('¡Pedido realizado con éxito!');
+                    Swal.fire({
+                        icon: 'success',
+                        title: '¡Pedido realizado con éxito!',
+                        text: 'Gracias por tu compra.',
+                        confirmButtonColor: '#3085d6'
+                    });
                     // Limpia el carrito y cierra el modal
                     cart = {};
                     updateCartModal();

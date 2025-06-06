@@ -877,3 +877,126 @@ body.sidebar-open .modal.show .modal-dialog {
 	z-index: 2051 !important;
 	/* Asegura que el dropdown esté por encima */
 }
+
+#cartModal, #loadingModal, #clientModal{
+	padding: 0 !important;
+}
+
+/* Aplica modo oscuro a las modales */
+body.dark .modal-content {
+    background-color: #23272b !important;
+    color: #f8f9fa !important;
+    border-color: #343a40 !important;
+}
+body.dark .modal-header,
+body.dark .modal-footer {
+    background-color: #23272b !important;
+    border-color: #343a40 !important;
+}
+body.dark .modal-body {
+    background-color: #23272b !important;
+    color: #f8f9fa !important;
+}
+
+body.dark input.form-control,
+body.dark input[type="text"] {
+    background-color: #18191a !important;
+    color: #f8f9fa !important;
+    border-color: #343a40 !important;
+}
+body.dark input.form-control::placeholder {
+    color: #b0b3b8 !important;
+}
+
+body.dark .order-card {
+    background-color: #23272b !important;
+    color: #f8f9fa !important;
+    border: 1px solid #343a40 !important;
+}
+body.dark .order-card .order-title,
+body.dark .order-card .order-date {
+    color: #f8f9fa !important;
+}
+
+#add_to_cart_button {
+    background-color: #343a40 !important;
+    color: #f8f9fa !important;
+    border-color: #495057 !important;
+}
+
+body.dark .counter-value{
+	color: #000;
+}
+
+/* --- MODO OSCURO PARA LA TABLA DEL CARRITO EN cartModal --- */
+body.dark #cartModal .table,
+body.dark #cartModal .table th,
+body.dark #cartModal .table td {
+    background-color: #23272b !important;
+    color: #f8f9fa !important;
+    border-color: #343a40 !important;
+}
+body.dark #cartModal .table thead th {
+    background-color: #18191a !important;
+    color: #f8f9fa !important;
+}
+body.dark #cartModal .table-striped > tbody > tr:nth-of-type(odd) {
+    background-color: #23272b !important;
+}
+body.dark #cartModal .table-striped > tbody > tr:nth-of-type(even) {
+    background-color: #18191a !important;
+}
+
+/* --- MODO OSCURO PARA SWEET ALERT 2 --- */
+body.dark .swal2-popup {
+    background: #23272b !important;
+    color: #f8f9fa !important;
+    border: 1px solid #343a40 !important;
+}
+body.dark .swal2-title,
+body.dark .swal2-html-container {
+    color: #f8f9fa !important;
+}
+body.dark .swal2-confirm,
+body.dark .swal2-cancel,
+body.dark .swal2-deny {
+    color: #f8f9fa !important;
+    border: 1px solid #495057 !important;
+}
+body.dark .swal2-icon {
+    color: #f8f9fa !important;
+    border-color: #343a40 !important;
+}
+body.dark select,
+body.dark select.form-select {
+    background-color: #18191a !important;
+    color: #f8f9fa !important;
+    border-color: #343a40 !important;
+}
+body.dark .select2-container--default .select2-selection--single {
+    background-color: #18191a !important;
+    color: #f8f9fa !important;
+    border-color: #343a40 !important;
+}
+body.dark .select2-container--default .select2-selection--single .select2-selection__rendered {
+    color: #f8f9fa !important;
+}
+body.dark .select2-container--default .select2-selection--multiple {
+    background-color: #18191a !important;
+    color: #f8f9fa !important;
+    border-color: #343a40 !important;
+}
+body.dark .select2-container--default .select2-selection--multiple .select2-selection__choice {
+    background-color: #23272b !important;
+    color: #f8f9fa !important;
+    border-color: #343a40 !important;
+}
+body.dark .select2-dropdown {
+    background-color: #23272b !important;
+    color: #f8f9fa !important;
+    border-color: #343a40 !important;
+}
+body.dark .select2-results__option--highlighted {
+    background-color: #343a40 !important;
+    color: #f8f9fa !important;
+}

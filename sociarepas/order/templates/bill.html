@@ -1,0 +1,48 @@
+{% extends 'home.html' %}
+{% block content %}
+{% load static %}
+{% load widget_tweaks %}
+
+<div class="head-title">
+    <div class="left">
+        <h1>Facturas</h1>
+    </div>
+</div>
+
+<div class="table-data">
+    <div class="order">
+        <table id="datatable-bill">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Cliente</th>
+                    <th>Cantidad</th>
+                    <th>Precio</th>
+                    <th>Método de Pago</th>
+                    <th>Opciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in orders_data %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ order.order.fk_client.name }} {{ order.order.fk_client.lastname }}</td>
+                    <td>{{ order.total_quantity }}</td>
+                    <td>${{ order.order.total }}</td>
+                    <td>{{ order.payment_type }}</td>
+                    <td>
+                        <button class="btn btn-sm btn-danger">
+                            <i class="bx bx-file-report"></i> Generar Factura
+                        </button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'assets/js/food_filling/datatable-bill.js' %}"></script>
+{% endblock %}
