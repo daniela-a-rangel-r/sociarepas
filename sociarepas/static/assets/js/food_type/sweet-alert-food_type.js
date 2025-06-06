@@ -71,36 +71,36 @@ document.querySelectorAll('.edit-food_type-button').forEach(button => {
                 'X-Requested-With': 'XMLHttpRequest'
             }
         })
-        .then(response => response.json())
-        .then(data => {
-            if (data.status === 'success') {
-                const form = document.getElementById('edit_food_type-form');
-                const baseAction = form.getAttribute('data-base-action');
-                form.setAttribute('action', baseAction.replace('0', id));
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    const form = document.getElementById('edit_food_type-form');
+                    const baseAction = form.getAttribute('data-base-action');
+                    form.setAttribute('action', baseAction.replace('0', id));
 
-                form.querySelector('input[name="name"]').value = data.data.name;
-                form.querySelector('input[name="price"]').value = data.data.price;
+                    form.querySelector('input[name="name"]').value = data.data.name;
+                    form.querySelector('input[name="price"]').value = data.data.price;
 
-                // Preseleccionar rellenos
-                const selectedFillings = data.data.fillings.map(String); // asegúrate que sean strings
-                const options = form.querySelectorAll('select[name="fillings"] option, input[name="fillings"]');
+                    // Preseleccionar rellenos
+                    const selectedFillings = data.data.fillings.map(String); // asegúrate que sean strings
+                    const options = form.querySelectorAll('select[name="fillings"] option, input[name="fillings"]');
 
-                options.forEach(option => {
-                    if (selectedFillings.includes(option.value)) {
-                        option.selected = true; // para select
-                        option.checked = true;  // para checkbox
-                    } else {
-                        option.selected = false;
-                        option.checked = false;
-                    }
-                });
+                    options.forEach(option => {
+                        if (selectedFillings.includes(option.value)) {
+                            option.selected = true; // para select
+                            option.checked = true;  // para checkbox
+                        } else {
+                            option.selected = false;
+                            option.checked = false;
+                        }
+                    });
 
-                const modal = new bootstrap.Modal(document.getElementById('edit-food_type-modal'));
-                modal.show();
-            } else {
-                Swal.fire('Error', data.message, 'error');
-            }
-        });
+                    const modal = new bootstrap.Modal(document.getElementById('edit-food_type-modal'));
+                    modal.show();
+                } else {
+                    Swal.fire('Error', data.message, 'error');
+                }
+            });
     });
 });
 
@@ -160,6 +160,35 @@ $(document).on('click', '.delete-food_type-button', function () {
                     console.error('Error:', error);
                     Swal.fire('Error', 'No se pudo completar la eliminación', 'error');
                 });
+        }
+    });
+});
+
+// Intercepta el submit del formulario de edición
+$('#edit_food_type-form').on('submit', function (e) {
+    e.preventDefault();
+    var $form = $(this);
+    var url = $form.attr('action');
+    var data = $form.serialize();
+
+    $.post(url, data, function (response) {
+        if (response.status === 'success') {
+            Swal.fire({
+                icon: 'success',
+                title: '¡Éxito!',
+                text: response.message,
+                confirmButtonText: 'OK'
+            }).then(() => {
+                // Opcional: recarga la página o actualiza la tabla
+                location.reload();
+            });
+            $('#edit-food_type-modal').modal('hide');
+        } else {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: response.message
+            });
         }
     });
 });

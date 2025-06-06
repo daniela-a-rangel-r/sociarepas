@@ -17,17 +17,10 @@
     <link rel="stylesheet" href="{% static 'assets/DataTables/css/jquery.dataTables.min.css' %}">
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
+    <!-- Select2 CSS -->
+    <link href="{% static 'assets/select2/css/select2.min.css' %}" rel="stylesheet" />
     <title>SociArepas</title>
 </head>
-<script>
-    // Aplica el modo oscuro lo antes posible si está activado
-    try {
-        if (localStorage.getItem('darkMode') === 'enabled') {
-            document.documentElement.classList.add('dark');
-            document.body && document.body.classList.add('dark');
-        }
-    } catch (e) { }
-</script>
 
 <body>
 
@@ -50,49 +43,27 @@
                 </a>
             </li>
             <li>
-                <a href="{% url 'home:order' %}">
-                    <i class='bx bx-receipt'></i>
-                    <span class="text">Ordenes</span>
+                <a href="{% url 'home:food_filling' %}">
+                    <i class='bx  bx-package'></i>
+                    <span class="text">Rellenos</span>
                 </a>
             </li>
             <li>
-                <a href="{% url 'home:food_filling' %}">
-                    <i class='bx  bx-package'></i>
-                    <span class="text">Productos</span>
+                <a href="{% url 'home:order' %}">
+                    <i class='bx bx-fork-spoon'></i>
+                    <span class="text">Registrar Pedido</span>
                 </a>
             </li>
-            <!-- Menú desplegable -->
-            <li class="dropdown" id="sidebar-caja">
-                <a href="#" class="dropdown-toggle" data-bs-toggle="collapse" data-bs-target="#submenu-caja"
-                    aria-expanded="false">
-                    <i class='bx bx-cabinet'></i>
-                    <span class="text">Caja</span>
+            <li>
+                <a href="">
+                    <i class='bx bx-receipt'></i>
+                    <span class="text">Facturas</span>
                 </a>
-                <ul class="collapse list-unstyled ps-4" id="submenu-caja">
-                    <li>
-                        <a href="">
-                            <i class='bx bx-user'></i>
-                            <span class="text">Clientes</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="">
-                            <i class='bx bx-list-ul-square'></i>
-                            <span class="text">Pedidos</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="">
-                            <i class='bx bx-receipt'></i>
-                            <span class="text">Facturas</span>
-                        </a>
-                    </li>
-                </ul>
             </li>
             <li>
                 <a href="{% url 'login:logout' %}" class="logout">
                     <i class='bx bx-arrow-out-left-square-half'></i>
-                    <span class="text">Cerrar sesión</span>
+                    <span class="text">Cerrar Sesión</span>
                 </a>
             </li>
         </ul>
@@ -123,7 +94,12 @@
     <script src="{% static 'assets/js/sweetalert2@11.js' %}"></script>
     <!-- Custom JS -->
     <script src="{% static 'assets/js/script.js' %}"></script>
-
+    <script src="{% static 'assets/js/dark_mode.js' %}"></script>
+    <!-- Select2 JS -->
+    <script src="{% static 'assets/select2/js/select2.min.js' %}"></script>
+    <!-- PDF JS -->
+    <script src="{% static 'assets/pdfmake/js/pdfmake.min.js' %}"></script>
+    <script src="{% static 'assets/pdfmake/js/vfs_fonts.js' %}"></script>
     {% block extra_js %}
     {% endblock %}
 </body>

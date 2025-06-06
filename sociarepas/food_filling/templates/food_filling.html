@@ -5,7 +5,7 @@
 
 <div class="head-title">
     <div class="left">
-        <h1>Productos</h1>
+        <h1>Rellenos</h1>
     </div>
 </div>
 
@@ -81,7 +81,7 @@
     </div>
 </div>
 
-<!-- Modal para solicitar más stock -->
+<!-- Modal para solicitar más Stock -->
 <div class="modal fade" id="request-stock-modal" tabindex="-1" aria-labelledby="requestStockModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -101,23 +101,6 @@
                         <label for="fk_supplier">Proveedor</label>
                         {{ stock_request_form.fk_supplier }}
                     </div>
-                    
-
-
-                    <!-- <input type="hidden" name="fk_food_filling" id="request-stock-food-filling-id"> -->
-
-                    <!-- <div class="mb-3">
-                        <label for="requested_quantity">Cantidad a solicitar</label>
-                        <input type="number" name="requested_quantity" id="requested_quantity" class="form-control" min="1" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="fk_supplier">Proveedor</label>
-                        <select name="fk_supplier" id="fk_supplier" class="form-control" required>
-                            {% for supplier in suppliers %}
-                            <option value="{{ supplier.id }}">{{ supplier.name }}</option>
-                            {% endfor %}
-                        </select>
-                    </div> -->
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
@@ -127,9 +110,6 @@
         </div>
     </div>
 </div>
-
-
-
 
 
 <!-- Modal de edicion de relleno -->
@@ -151,9 +131,7 @@
                     <div class="mb-3">
                         {{ food_filling_edit_form.quantity|add_class:"form-control numeric-only" }}
                     </div>
-
                 </div>
-
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                     <button type="submit" class="btn btn-primary">Guardar</button>
