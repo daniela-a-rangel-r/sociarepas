@@ -19,7 +19,7 @@ class Food_TypeBaseForm(forms.ModelForm):
 
     fillings = forms.ModelMultipleChoiceField(
         queryset=Food_Filling.objects.all(),
-        required=False,
+        required=True,  # <-- Cambia a True
         label='Rellenos disponibles',
         widget=forms.SelectMultiple(attrs={
             'class': 'form-control'
@@ -49,7 +49,7 @@ class Food_TypeBaseForm(forms.ModelForm):
                 Food_Filling_Type_Details.objects.create(
                     fk_food_type=instance,
                     fk_food_filling=filling,
-                    quantity=100  # puedes personalizar esto o añadirlo al formulario
+                    needed_quantity=100  # Usa el nombre correcto del campo
                 )
         return instance
 

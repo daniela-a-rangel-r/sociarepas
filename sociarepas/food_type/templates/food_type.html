@@ -30,7 +30,9 @@
                     <td>{{ food_type.name }}</td>
                     <td>{{ food_type.price }} $</td>
                     <td>
-                        <button class="btn btn-sm btn-primary edit-food_type-button" data-id="{{ food_type.id }}" data-name="{{ food_type.name }}" data-price="{{ food_type.price }}" data-bs-toggle="modal" data-bs-target="#edit-food_type-modal">
+                        <button class="btn btn-sm btn-primary edit-food_type-button" data-id="{{ food_type.id }}"
+                            data-name="{{ food_type.name }}" data-price="{{ food_type.price }}" data-bs-toggle="modal"
+                            data-bs-target="#edit-food_type-modal">
                             <i class="bx bx-pencil"></i>
                         </button>
                         <button class="btn btn-danger btn-sm delete-food_type-button" data-id="{{ food_type.id }}">
@@ -45,7 +47,8 @@
 </div>
 
 <!-- Modal de Registro de Arepa -->
-<div class="modal fade" id="register-food_type-modal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
+<div class="modal fade" id="register-food_type-modal" tabindex="-1" aria-labelledby="registerModalLabel"
+    aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -85,7 +88,8 @@
                 <h5 class="modal-title" id="editModalLabel">Editar Arepa</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form id="edit_food_type-form" data-base-action="{% url 'food_type:food_type_edit' 0 %}" action="{% url 'food_type:food_type_edit' 0 %}" method="post">
+            <form id="edit_food_type-form" data-base-action="{% url 'food_type:food_type_edit' 0 %}"
+                action="{% url 'food_type:food_type_edit' 0 %}" method="post">
                 {% csrf_token %}
                 <div class="modal-body">
                     <label for="food_type_name">Nombre</label>
@@ -98,11 +102,9 @@
                     </div>
                     <label for="food_type_filling">Rellenos</label>
                     <div class="mb-3">
-                        {{ food_type_edit_form.fillings|add_class:"form-control" }}
+                        {{ food_type_edit_form.fillings|add_class:"form-select" }}
                     </div>
-
                 </div>
-
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                     <button type="submit" class="btn btn-primary">Guardar</button>
@@ -115,7 +117,37 @@
 {% endblock %}
 
 {% block extra_js %}
+<style>
+    .select2-container {
+        z-index: 2050 !important; /* Mayor que el z-index de la modal de Bootstrap */
+    }
+    .select2-dropdown {
+        z-index: 2051 !important; /* Asegura que el dropdown esté por encima */
+    }
+</style>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 <script src="{% static 'assets/js/food_type/datatable-food_type.js' %}"></script>
 <script src="{% static 'assets/js/food_type/numeric-only.js' %}"></script>
 <script src="{% static 'assets/js/food_type/sweet-alert-food_type.js' %}"></script>
+<script>
+    $(document).ready(function () {
+        // Aplica select2 solo al select de la modal de registro
+        $('#register-food_type-modal select[multiple]').select2({
+            width: '100%',
+            placeholder: 'Selecciona uno o más rellenos'
+        });
+    });
+</script>
+
+<script>
+    $('#create_food_type-form').on('submit', function (e) {
+        var fillings = $('#register-food_type-modal select[multiple]').val();
+        if (!fillings || fillings.length === 0) {
+            alert('Debes seleccionar al menos un relleno.');
+            e.preventDefault();
+            return false;
+        }
+    });
+</script>
 {% endblock %}
