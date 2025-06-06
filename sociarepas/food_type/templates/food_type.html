@@ -31,8 +31,7 @@
                     <td>{{ food_type.price }} $</td>
                     <td>
                         <button class="btn btn-sm btn-primary edit-food_type-button" data-id="{{ food_type.id }}"
-                            data-name="{{ food_type.name }}" data-price="{{ food_type.price }}" data-bs-toggle="modal"
-                            data-bs-target="#edit-food_type-modal">
+                            data-name="{{ food_type.name }}" data-price="{{ food_type.price }}">
                             <i class="bx bx-pencil"></i>
                         </button>
                         <button class="btn btn-danger btn-sm delete-food_type-button" data-id="{{ food_type.id }}">
@@ -119,10 +118,13 @@
 {% block extra_js %}
 <style>
     .select2-container {
-        z-index: 2050 !important; /* Mayor que el z-index de la modal de Bootstrap */
+        z-index: 2050 !important;
+        /* Mayor que el z-index de la modal de Bootstrap */
     }
+
     .select2-dropdown {
-        z-index: 2051 !important; /* Asegura que el dropdown esté por encima */
+        z-index: 2051 !important;
+        /* Asegura que el dropdown esté por encima */
     }
 </style>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
@@ -131,23 +133,94 @@
 <script src="{% static 'assets/js/food_type/numeric-only.js' %}"></script>
 <script src="{% static 'assets/js/food_type/sweet-alert-food_type.js' %}"></script>
 <script>
-    $(document).ready(function () {
-        // Aplica select2 solo al select de la modal de registro
-        $('#register-food_type-modal select[multiple]').select2({
+    // Inicializa Select2 solo cuando se abre el modal de registro
+    $('#register-food_type-modal').on('shown.bs.modal', function () {
+        var $select = $(this).find('select[multiple]');
+        if ($select.hasClass("select2-hidden-accessible")) {
+            $select.select2('destroy');
+        }
+        $select.select2({
             width: '100%',
             placeholder: 'Selecciona uno o más rellenos'
+        });
+    });
+
+    // Destruye Select2 al cerrar el modal de registro
+    $('#register-food_type-modal').on('hidden.bs.modal', function () {
+        var $select = $(this).find('select[multiple]');
+        if ($select.hasClass("select2-hidden-accessible")) {
+            $select.select2('destroy');
+        }
+    });
+
+    // Inicializa Select2 solo cuando se abre el modal de edición
+    $('#edit-food_type-modal').on('shown.bs.modal', function () {
+        var $select = $(this).find('select[multiple]');
+        if ($select.hasClass("select2-hidden-accessible")) {
+            $select.select2('destroy');
+        }
+        $select.select2({
+            width: '100%',
+            placeholder: 'Selecciona uno o más rellenos'
+        });
+    });
+
+    // Destruye Select2 al cerrar el modal de edición
+    $('#edit-food_type-modal').on('hidden.bs.modal', function () {
+        var $select = $(this).find('select[multiple]');
+        if ($select.hasClass("select2-hidden-accessible")) {
+            $select.select2('destroy');
+        }
+    });
+
+    // Cuando se abre la modal de edición, actualiza los valores seleccionados
+    $('.edit-food_type-button').on('click', function () {
+        var foodTypeId = $(this).data('id');
+        $.ajax({
+            url: '/food_type/get_food_type/' + foodTypeId + '/',
+            type: 'GET',
+            headers: { 'X-Requested-With': 'XMLHttpRequest' },
+            success: function (response) {
+                if (response.status === 'success') {
+                    var fillings = response.data.fillings;
+                    $('#edit-food_type-modal select[multiple]').val(fillings).trigger('change');
+                    var baseAction = $('#edit_food_type-form').data('base-action');
+                    $('#edit_food_type-form').attr('action', baseAction.replace('0', foodTypeId));
+                    $('#edit-food_type-modal').modal('show');
+                }
+            }
         });
     });
 </script>
 
 <script>
-    $('#create_food_type-form').on('submit', function (e) {
-        var fillings = $('#register-food_type-modal select[multiple]').val();
-        if (!fillings || fillings.length === 0) {
-            alert('Debes seleccionar al menos un relleno.');
-            e.preventDefault();
-            return false;
-        }
+    // Intercepta el submit del formulario de edición
+    $('#edit_food_type-form').on('submit', function (e) {
+        e.preventDefault();
+        var $form = $(this);
+        var url = $form.attr('action');
+        var data = $form.serialize();
+
+        $.post(url, data, function (response) {
+            if (response.status === 'success') {
+                Swal.fire({
+                    icon: 'success',
+                    title: '¡Éxito!',
+                    text: response.message,
+                    confirmButtonText: 'OK'
+                }).then(() => {
+                    // Opcional: recarga la página o actualiza la tabla
+                    location.reload();
+                });
+                $('#edit-food_type-modal').modal('hide');
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: response.message
+                });
+            }
+        });
     });
 </script>
 {% endblock %}
