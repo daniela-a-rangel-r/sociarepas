@@ -69,7 +69,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="initial_quantity">Cantidad Inicial</label>
-                        {{ food_filling_create_form.initial_quantity }}
+                        {{ food_filling_create_form.initial_quantity|add_class:"form-control numeric-only" }}
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -95,7 +95,7 @@
                     <input type="hidden" name="fk_food_filling" id="request-stock-food-filling-id">
                     <div class="mb-3">
                         <label for="name">Cantidad a solicitar</label>
-                        {{ stock_request_form.requested_quantity }}
+                        {{ stock_request_form.requested_quantity|add_class:"form-control numeric-only" }}
                     </div>
                     <div class="mb-3">
                         <label for="fk_supplier">Proveedor</label>

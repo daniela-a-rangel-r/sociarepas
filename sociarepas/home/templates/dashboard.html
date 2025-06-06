@@ -1,6 +1,7 @@
 {% extends 'home.html' %}
 {% block content %}
 {% load static %}
+{% load widget_tweaks %}
 
 <div class="head-title">
     <div class="left">
@@ -80,7 +81,7 @@
                     <input type="hidden" name="fk_food_filling" id="request-stock-food-filling-id">
                     <div class="mb-3">
                         <label for="name">Cantidad a solicitar</label>
-                        {{ stock_request_form.requested_quantity }}
+                        {{ stock_request_form.requested_quantity|add_class:"form-control numeric-only" }}
                     </div>
                     <div class="mb-3">
                         <label for="fk_supplier">Proveedor</label>
@@ -102,5 +103,6 @@
 <script src="{% static 'assets/js/dashboard/datatable-dashboard.js' %}"></script>
 <script src="{% static 'assets/js/dashboard/sweet-alert-dashboard.js' %}"></script>
 <script src="{% static 'assets/js/food_filling/sweet-alert-food_filling.js' %}"></script>
+<script src="{% static 'assets/js/food_filling/numeric-only.js' %}"></script>
 <script src="{% static 'assets/js/sweetalert2@11.js' %}"></script>
 {% endblock %}

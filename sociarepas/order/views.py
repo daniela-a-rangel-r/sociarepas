@@ -5,13 +5,24 @@ from django.http import JsonResponse
 from food_filling.models import Food_Type, Food_Filling_Type_Details, Stock
 from .models import Client, Order, Order_Details, Payment_Type
 from django.contrib.auth.decorators import login_required
+from django.db.models import Sum, F, Q
 
 @login_required
 def order(request):
-    food_types = Food_Type.objects.all()
+    food_types = []
+    for food_type in Food_Type.objects.all():
+        fillings = Food_Filling_Type_Details.objects.filter(fk_food_type=food_type)
+        can_make = True
+        for filling in fillings:
+            stock = Stock.objects.filter(fk_food_filling=filling.fk_food_filling).aggregate(total=Sum('quantity'))['total'] or 0
+            if stock < filling.needed_quantity:
+                can_make = False
+                break
+        if can_make:
+            food_types.append(food_type)
     return render(request, 'order.html', {
         'food_types': food_types
-        })
+    })
 
 @login_required
 def bill(request):
@@ -41,7 +52,7 @@ def process_order(request):
         data = request.POST
         cart = json.loads(data.get('cart', '{}'))
         payment_type_id = int(data.get('payment_type', 1))
-
+        
         # 1. Registrar cliente
         client = Client.objects.create(
             name=data.get('name'),
