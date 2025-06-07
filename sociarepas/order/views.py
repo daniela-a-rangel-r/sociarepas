@@ -58,7 +58,8 @@ def process_order(request):
             name=data.get('name'),
             lastname=data.get('lastname'),
             address=data.get('address'),
-            phone_number=data.get('phone_number')
+            phone_number=data.get('phone_number'),
+            identity_number=data.get('identity_number')
         )
 
         # 2. Calcular total

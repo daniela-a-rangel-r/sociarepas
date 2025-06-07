@@ -89,12 +89,16 @@
                                 <input type="text" class="form-control" name="lastname" required>
                             </div>
                             <div class="col-md-8">
+                                <label class="form-label">Cédula</label>
+                                <input type="text" class="form-control numeric-only" name="identity_number" required>
+                            </div>
+                            <div class="col-md-8">
                                 <label class="form-label">Dirección</label>
                                 <input type="text" class="form-control" name="address" required>
                             </div>
                             <div class="col-md-4">
                                 <label class="form-label">Número telefónico</label>
-                                <input type="tel" class="form-control" name="phone_number" required>
+                                <input type="tel" class="form-control numeric-only" name="phone_number" required>
                             </div>
                             <input type="hidden" name="payment_type" value="1">
                             <input type="hidden" name="cart" id="cartInput">
@@ -131,4 +135,5 @@
 </script>
 <!-- Custom JS -->
 <script src="{% static 'assets/js/order/food_type_cart.js' %}"></script>
+<script src="{% static 'assets/js/order/numeric-only.js' %}"></script>
 {% endblock %}

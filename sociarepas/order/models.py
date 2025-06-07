@@ -16,6 +16,7 @@ class Payment_Type(models.Model):
 class Client(models.Model):
     name = models.CharField(max_length=45, null=False, verbose_name='Nombre del cliente')
     lastname = models.CharField(max_length=45, null=False, verbose_name='Apellido del cliente')
+    identity_number = models.IntegerField(null=False, verbose_name='Cédula del cliente')
     address = models.CharField(max_length=45, null=False, verbose_name='Dirección del cliente')
     phone_number = models.IntegerField(null=False, verbose_name='Numero telefónico del cliente')
 

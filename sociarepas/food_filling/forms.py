@@ -1,18 +1,11 @@
 from django import forms
-from .models import Food_Filling
-
-SUPPLIER_CHOICES = [
-    (1, 'Empresas Polar'),
-    (2, 'Granos Pantera'),
-    (3, 'Alimentos Mary'),
-    (4, 'Hiper Verduras de Aragua C.A'),
-    (5, 'Embutidos Frío Carnes')
-]
+from .models import Food_Filling, Supplier
 
 class Food_FillingBaseForm(forms.ModelForm):
     
-    fk_supplier = forms.ChoiceField(
-        choices=[(None, 'Seleccione un proveedor')] + SUPPLIER_CHOICES,
+    fk_supplier = forms.ModelChoiceField(
+        queryset=Supplier.objects.all(),
+        empty_label='Seleccione un proveedor',
         label='Proveedor',
         widget=forms.Select(attrs={'class': 'form-control'})
     )
@@ -38,8 +31,9 @@ class Food_FillingEdit(Food_FillingBaseForm):
 
 class StockRequestForm(forms.Form):
 
-    fk_supplier = forms.ChoiceField(
-        choices=[(None, 'Seleccione un proveedor')] + SUPPLIER_CHOICES,
+    fk_supplier = forms.ModelChoiceField(
+        queryset=Supplier.objects.all(),
+        empty_label='Seleccione un proveedor',
         label='Proveedor',
         widget=forms.Select(attrs={'class': 'form-control'})
     )

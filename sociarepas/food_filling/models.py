@@ -1,14 +1,6 @@
 from django.db import models
 from food_type.models import Food_Type
 
-SUPPLIER_CHOICES = [
-    (1, 'Empresas Polar'),
-    (2, 'Granos Pantera'),
-    (3, 'Alimentos Mary'),
-    (4, 'Hiper Verduras de Aragua C.A'),
-    (5, 'Embutidos Frío Carnes')
-]
-
 class Food_Filling(models.Model):
     name = models.CharField(max_length=45, null=False, verbose_name='Tipo de relleno')
 
@@ -25,10 +17,16 @@ class Food_Filling_Type_Details(models.Model):
 
         
 class Supplier(models.Model):
-    supplier = models.IntegerField(null=True, choices=SUPPLIER_CHOICES, verbose_name='Proveedor')
+    name = models.CharField(max_length=45, null=False, verbose_name='Nombre de la empresa')
+    address = models.CharField(max_length=45, null=False, verbose_name='Dirección de la empresa')
+    phone_number = models.IntegerField(null=False, verbose_name='Numero telefónico de la empresa')
+    rif = models.CharField(max_length=45, null=False, verbose_name='RIF de la empresa')
 
     class Meta:
         db_table = 'supplier'
+    
+    def __str__(self):
+        return self.name
 
 class Stock(models.Model):
     quantity = models.IntegerField(null=False, verbose_name='Cantidad de relleno disponible')
