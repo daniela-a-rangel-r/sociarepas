@@ -100,7 +100,15 @@
                                 <label class="form-label">Número telefónico</label>
                                 <input type="tel" class="form-control numeric-only" name="phone_number" required>
                             </div>
-                            <input type="hidden" name="payment_type" value="1">
+                            <div class="col-md-4">
+                                <label class="form-label">Método de pago</label>
+                                <select class="form-select" name="payment_type" required>
+                                    <option value="" disabled selected>Seleccione</option>
+                                    {% for payment_type in payment_types %}
+                                    <option value="{{ payment_type.id }}">{{ payment_type.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
                             <input type="hidden" name="cart" id="cartInput">
                         </div>
                         <div class="d-flex justify-content-between align-items-center border-top pt-3">

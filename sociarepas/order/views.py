@@ -20,8 +20,10 @@ def order(request):
                 break
         if can_make:
             food_types.append(food_type)
+    payment_types = Payment_Type.objects.all()
     return render(request, 'order.html', {
-        'food_types': food_types
+        'food_types': food_types,
+        'payment_types': payment_types
     })
 
 @login_required

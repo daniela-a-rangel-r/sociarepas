@@ -162,6 +162,15 @@ function getCartTotal() {
 }
 
 function showClientModal() {
+    // Verifica si el carrito está vacío
+    if (Object.keys(cart).length === 0) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Carrito vacío',
+            text: 'Debes agregar al menos una arepa antes de continuar.'
+        });
+        return; // No continúa si el carrito está vacío
+    }
     const cartData = cart; // Obtiene el carrito actual
 
     verifyStockModal(cartData).then(data => {

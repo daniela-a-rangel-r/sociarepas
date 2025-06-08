@@ -1,17 +1,14 @@
 from django.db import models
 from food_type.models import Food_Type
 
-PAYMENT_CHOICES = [
-    (1, 'Efectivo'),
-    (2, 'Pago Móvil'),
-    (3, 'Tarjeta')
-]
-
 class Payment_Type(models.Model):
-    payment_type = models.IntegerField(null=True, choices=PAYMENT_CHOICES, verbose_name='Modo de pago')
+    name = models.CharField(max_length=45, null=False, verbose_name='Modo de pago')
 
     class Meta:
         db_table = 'payment_type'
+    
+    def __str__(self):
+        return self.name
         
 class Client(models.Model):
     name = models.CharField(max_length=45, null=False, verbose_name='Nombre del cliente')
