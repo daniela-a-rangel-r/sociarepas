@@ -61,7 +61,6 @@ function getCookie(name) {
 }
 
 //Editar
-
 document.querySelectorAll('.edit-food_type-button').forEach(button => {
     button.addEventListener('click', function () {
         const id = this.dataset.id;
@@ -73,6 +72,7 @@ document.querySelectorAll('.edit-food_type-button').forEach(button => {
         })
             .then(response => response.json())
             .then(data => {
+                console.log(data);
                 if (data.status === 'success') {
                     const form = document.getElementById('edit_food_type-form');
                     const baseAction = form.getAttribute('data-base-action');
@@ -81,20 +81,14 @@ document.querySelectorAll('.edit-food_type-button').forEach(button => {
                     form.querySelector('input[name="name"]').value = data.data.name;
                     form.querySelector('input[name="price"]').value = data.data.price;
 
-                    // Preseleccionar rellenos
-                    const selectedFillings = data.data.fillings.map(String); // asegúrate que sean strings
-                    const options = form.querySelectorAll('select[name="fillings"] option, input[name="fillings"]');
+                    $('#edit_food_type-form #id_fillings').val(data.data.fillings.map(String)).trigger('change');
+                    $('#edit_food_type-form #id_fillings_quantities').val(JSON.stringify(data.data.quantities));
 
-                    options.forEach(option => {
-                        if (selectedFillings.includes(option.value)) {
-                            option.selected = true; // para select
-                            option.checked = true;  // para checkbox
-                        } else {
-                            option.selected = false;
-                            option.checked = false;
-                        }
-                    });
+                    setTimeout(() => {
+                        window.renderQuantityInputsEdit && window.renderQuantityInputsEdit();
+                    }, 300);
 
+                    // Mostrar el modal
                     const modal = new bootstrap.Modal(document.getElementById('edit-food_type-modal'));
                     modal.show();
                 } else {
@@ -103,7 +97,6 @@ document.querySelectorAll('.edit-food_type-button').forEach(button => {
             });
     });
 });
-
 
 
 //Eliminar
@@ -166,8 +159,17 @@ $(document).on('click', '.delete-food_type-button', function () {
 
 // Intercepta el submit del formulario de edición
 $('#edit_food_type-form').on('submit', function (e) {
-    e.preventDefault();
     var $form = $(this);
+    var container = document.getElementById('edit-fillings-quantities-container');
+    var hiddenInput = $form.find('input[name="fillings_quantities"]');
+    if (container && hiddenInput.length) {
+        var data = {};
+        $(container).find('input[data-filling-id]').each(function () {
+            data[$(this).data('filling-id')] = $(this).val();
+        });
+        hiddenInput.val(JSON.stringify(data));
+    }
+    e.preventDefault();
     var url = $form.attr('action');
     var data = $form.serialize();
 

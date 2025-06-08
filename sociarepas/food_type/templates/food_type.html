@@ -69,6 +69,8 @@
                     <div class="mb-3">
                         {{ food_type_create_form.fillings|add_class:"form-select" }}
                     </div>
+                    <div id="fillings-quantities-container"></div>
+                    {{ food_type_create_form.fillings_quantities }}
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
@@ -103,6 +105,8 @@
                     <div class="mb-3">
                         {{ food_type_edit_form.fillings|add_class:"form-select" }}
                     </div>
+                    <div id="edit-fillings-quantities-container"></div>
+                    {{ food_type_edit_form.fillings_quantities }}
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
@@ -118,6 +122,9 @@
 {% block extra_js %}
 <script src="{% static 'assets/js/food_type/datatable-food_type.js' %}"></script>
 <script src="{% static 'assets/js/food_type/numeric-only.js' %}"></script>
+<script src="{% static 'assets/js/food_type/quantity-numeric-only.js' %}"></script>
 <script src="{% static 'assets/js/food_type/sweet-alert-food_type.js' %}"></script>
 <script src="{% static 'assets/js/food_type/select2_behavior.js' %}"></script>
+<script src="{% static 'assets/js/food_type/needed_quantity_per_food_filling.js' %}"></script>
+<script src="{% static 'assets/js/food_type/needed_quantity_per_food_filling_edit.js' %}"></script>
 {% endblock %}

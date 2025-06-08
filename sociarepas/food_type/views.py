@@ -11,14 +11,20 @@ def get_food_type(request, food_type_id):
     if request.method == 'GET' and request.headers.get('X-Requested-With') == 'XMLHttpRequest':
         try:
             food_type = Food_Type.objects.get(id=food_type_id)
-            fillings = Food_Filling_Type_Details.objects.filter(fk_food_type=food_type).values_list('fk_food_filling_id', flat=True)
+            fillings_details = Food_Filling_Type_Details.objects.filter(fk_food_type=food_type)
+            fillings = []
+            quantities = {}
+            for detail in fillings_details:
+                fillings.append(detail.fk_food_filling_id)
+                quantities[str(detail.fk_food_filling_id)] = detail.needed_quantity
             return JsonResponse({
                 'status': 'success',
                 'data': {
                     'id': food_type.id,
                     'name': food_type.name,
                     'price': str(food_type.price),
-                    'fillings': list(fillings),
+                    'fillings': fillings,
+                    'quantities': quantities,
                 }
             })
         except Food_Type.DoesNotExist:
