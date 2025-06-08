@@ -7,7 +7,6 @@ from django.contrib.auth.decorators import login_required
 
 @login_required
 def food_filling(request):
-    # food_filling = Food_Filling.objects.all()
     food_filling = Food_Filling.objects.annotate(total_quantity=Sum('stock__quantity'))
     food_filling_create_form = Food_FillingCreate()
     food_filling_edit_form = Food_FillingEdit()
@@ -33,13 +32,11 @@ def food_filling_create(request):
             try:
                 food_filling = food_filling_create_form.save()
 
-                supplier_id = food_filling_create_form.cleaned_data.get('fk_supplier')
+                supplier = food_filling_create_form.cleaned_data.get('fk_supplier')
                 initial_quantity = food_filling_create_form.cleaned_data.get('initial_quantity')
 
-                if not supplier_id or not initial_quantity:
+                if not supplier or not initial_quantity:
                     return JsonResponse({'status': 'error', 'message': 'Proveedor y cantidad inicial son obligatorios.'})
-
-                supplier = Supplier.objects.get(supplier=supplier_id)
 
                 Stock.objects.create(
                     fk_food_filling=food_filling,
@@ -108,12 +105,11 @@ def stock_request_create(request):
         
         if stock_request_form.is_valid():
             food_filling_id = request.POST.get('fk_food_filling')  # ID del producto
-            supplier_id = stock_request_form.cleaned_data['fk_supplier']  # ID del proveedor
+            supplier = stock_request_form.cleaned_data['fk_supplier']  # ID del proveedor
             requested_quantity = stock_request_form.cleaned_data['requested_quantity']  # Cantidad solicitada
 
             try:
                 food_filling = Food_Filling.objects.get(id=food_filling_id)
-                supplier = Supplier.objects.get(id=supplier_id)
 
                 # Actualizar el stock existente
                 stock, created = Stock.objects.get_or_create(
@@ -124,7 +120,7 @@ def stock_request_create(request):
                 stock.quantity += int(requested_quantity)
                 stock.save()
 
-                return JsonResponse({'status': 'success', 'message': 'Stock solicitado correctamente.'})
+                return JsonResponse({'status': 'success', 'message': 'Stock agregado correctamente.'})
             except Food_Filling.DoesNotExist:
                 return JsonResponse({'status': 'error', 'message': 'El producto no existe.'}, status=404)
             except Supplier.DoesNotExist:

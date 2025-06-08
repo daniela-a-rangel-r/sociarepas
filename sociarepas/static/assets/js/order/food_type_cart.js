@@ -152,26 +152,6 @@ function updateCartModal() {
     }
 }
 
-// Mostrar modal de datos del cliente con animación de carga
-function showClientModal() {
-    // Cierra el modal del carrito
-    var cartModal = bootstrap.Modal.getInstance(document.getElementById('cartModal'));
-    cartModal.hide();
-
-    // Muestra el spinner de carga
-    var loadingModal = new bootstrap.Modal(document.getElementById('loadingModal'));
-    loadingModal.show();
-
-    // Espera 1.2 segundos y muestra la modal de datos del cliente
-    setTimeout(function () {
-        loadingModal.hide();
-        // Actualiza el total en la modal de cliente
-        document.getElementById('clientModalTotal').textContent = getCartTotal() + ' $';
-        var clientModal = new bootstrap.Modal(document.getElementById('clientModal'));
-        clientModal.show();
-    }, 1200);
-}
-
 // Calcula el total del carrito
 function getCartTotal() {
     let total = 0;
@@ -179,6 +159,43 @@ function getCartTotal() {
         total += item.price * item.quantity;
     });
     return total.toFixed(2);
+}
+
+function showClientModal() {
+    const cartData = cart; // Obtiene el carrito actual
+
+    verifyStockModal(cartData).then(data => {
+        if (data.success === false) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Stock insuficiente',
+                text: data.message
+            });
+        } else {
+            // Cierra el modal del carrito
+            var cartModal = bootstrap.Modal.getInstance(document.getElementById('cartModal'));
+            cartModal.hide();
+
+            // Muestra el spinner de carga
+            var loadingModal = new bootstrap.Modal(document.getElementById('loadingModal'));
+            loadingModal.show();
+
+            // Espera 1.2 segundos y muestra la modal de datos del cliente
+            setTimeout(function () {
+                loadingModal.hide();
+                // Actualiza el total en la modal de cliente
+                document.getElementById('clientModalTotal').textContent = getCartTotal() + ' $';
+                var clientModal = new bootstrap.Modal(document.getElementById('clientModal'));
+                clientModal.show();
+            }, 1200);
+        }
+    }).catch(() => {
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'No se pudo verificar el stock. Intenta de nuevo.'
+        });
+    });
 }
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -288,4 +305,23 @@ function updateCartCount() {
     } else {
         badge.style.display = 'none';
     }
+}
+
+// Asume que tienes window.processOrderUrl y window.csrfToken definidos en order.html
+
+function verifyStockModal(cart) {
+    // Enviar solo para verificar stock, sin registrar cliente ni pedido
+    return fetch(window.processOrderUrl, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': window.csrfToken,
+            'X-Requested-With': 'XMLHttpRequest'
+        },
+        body: JSON.stringify({
+            cart: JSON.stringify(cart),
+            verify_stock: true // Bandera para solo verificar stock
+        })
+    })
+    .then(response => response.json());
 }

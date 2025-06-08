@@ -50,8 +50,33 @@ def bill(request):
 def process_order(request):
     if request.method == "POST":
         data = request.POST
+        if request.content_type == 'application/json':
+            data = json.loads(request.body)
+        else:
+            data = request.POST
         cart = json.loads(data.get('cart', '{}'))
         payment_type_id = int(data.get('payment_type', 1))
+        
+        # --- VERIFICACIÓN DE STOCK ANTES DE PROCESAR ---
+        for food_type_name, item in cart.items():
+            try:
+                food_type = Food_Type.objects.get(name=food_type_name)
+            except Food_Type.DoesNotExist:
+                continue
+
+            food_fillings = Food_Filling_Type_Details.objects.filter(fk_food_type=food_type)
+            for food_filling in food_fillings:
+                total_needed = food_filling.needed_quantity * item['quantity']
+                stock_total = Stock.objects.filter(fk_food_filling=food_filling.fk_food_filling).aggregate(total=Sum('quantity'))['total'] or 0
+                if stock_total < total_needed:
+                    return JsonResponse({
+                        'success': False,
+                        'message': f"No hay suficiente stock de '{food_filling.fk_food_filling.name}' para la arepa '{food_type.name}'."
+                    }, status=400)
+        
+        # Si solo es verificación de stock, no continuar
+        if data.get('verify_stock'):
+            return JsonResponse({'success': True})
         
         # 1. Registrar cliente
         client = Client.objects.create(
