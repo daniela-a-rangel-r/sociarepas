@@ -1,8 +1,8 @@
 from django.shortcuts import render, get_object_or_404
 from . models import Food_Filling, Stock, Supplier
-from . forms import Food_FillingCreate,Food_FillingEdit, StockRequestForm
+from . forms import Food_FillingCreate,Food_FillingEdit, StockRequestForm,SupplierCreate,SupplierEdit
 from django.http.response import JsonResponse
-from django.db.models import Sum
+from django.db.models import Sum,Q
 from django.contrib.auth.decorators import login_required
 
 @login_required
@@ -132,3 +132,95 @@ def stock_request_create(request):
             return JsonResponse({'status': 'error', 'message': stock_request_form.errors}, status=400)
 
     return JsonResponse({'status': 'error', 'message': 'Método no permitido.'}, status=405)
+
+#proveedores
+@login_required
+def supplier(request):
+    supplier = Supplier.objects.all()
+    supplier_create_form = SupplierCreate()
+    supplier_edit_form = SupplierEdit()
+
+    return render(request, 'supplier.html',{
+        'supplier' : supplier,
+        'supplier_create_form': supplier_create_form,
+        'supplier_edit_form': supplier_edit_form,
+
+    })
+
+@login_required
+def supplier_create(request):
+    if request.method == "POST":
+        supplier_create_form = SupplierCreate(request.POST)
+        if supplier_create_form.is_valid():
+            name = supplier_create_form.cleaned_data['name'].strip()
+            rif = supplier_create_form.cleaned_data['rif'].strip()
+            if Supplier.objects.filter(Q(name__iexact=name) | Q(rif__iexact=rif)).exists():
+                return JsonResponse({
+                    'status': 'error',
+                    'message': 'Ya existe un proveedor con este nombre o RIF.'
+                })
+            try:
+                supplier_create_form.save()
+                return JsonResponse({
+                    'status': 'success',
+                    'message': 'El proveedor se ha guardado correctamente.'
+                })
+            except Exception as e:
+                return JsonResponse({
+                    'status': 'error',
+                    'message': f'Error inesperado: {str(e)}'
+                })
+    else:
+        supplier_create_form = SupplierCreate()
+
+    return render(request, 'supplier.html', {
+        'supplier_create_form': supplier_create_form
+    })
+
+@login_required
+def supplier_edit(request, supplier_id):
+    supplier = get_object_or_404(Supplier, pk=supplier_id)
+
+    if request.method == "POST":
+        supplier_edit_form = SupplierEdit(request.POST, instance=supplier)
+        if supplier_edit_form.is_valid():
+            name = supplier_edit_form.cleaned_data['name'].strip()
+            rif = supplier_edit_form.cleaned_data['rif'].strip()
+            if Supplier.objects.filter(Q(name__iexact=name) | Q(rif__iexact=rif)).exists():
+                return JsonResponse({
+                    'status': 'error',
+                    'message': 'Ya existe un proveedor con este nombre o RIF.'
+                })
+
+            try:
+                supplier_edit_form.save()
+                return JsonResponse({'status': 'success', 'message': 'El proveedor se ha actualizado correctamente.'})
+            except Exception as e:
+                return JsonResponse({'status': 'error', 'message': f'Error inesperado: {str(e)}'})
+        else:
+            errors = []
+            for field, error_list in supplier_edit_form.errors.items():
+                for error in error_list:
+                    errors.append(f'Error en el campo: {error}')
+            return JsonResponse({'status': 'error', 'message': ' '.join(errors)})
+    
+    else:
+
+        supplier_edit_form = SupplierEdit(instance=supplier)
+
+    return render(request, 'supplier.html', {
+        'supplier_edit_form': supplier_edit_form
+    })
+
+@login_required
+def supplier_delete(request, supplier_id):
+    if request.method == 'POST':
+        try:
+            supplier = Supplier.objects.get(id=supplier_id)
+            supplier.delete()
+            return JsonResponse({'success': True, 'message': 'Proveedor eliminado correctamente'})
+        except Supplier.DoesNotExist:
+            return JsonResponse({'success': False, 'message': 'El proveedor no existe'}, status=404)
+        except Exception as e:
+            return JsonResponse({'success': False, 'message': str(e)}, status=500)
+    return JsonResponse({'success': False, 'message': 'Método no permitido'}, status=405)

@@ -19,7 +19,7 @@ class Food_Filling_Type_Details(models.Model):
 class Supplier(models.Model):
     name = models.CharField(max_length=45, null=False, verbose_name='Nombre de la empresa')
     address = models.CharField(max_length=45, null=False, verbose_name='Dirección de la empresa')
-    phone_number = models.IntegerField(null=False, verbose_name='Numero telefónico de la empresa')
+    phone_number = models.CharField(max_length=20, null=False, verbose_name='Número telefónico de la empresa')
     rif = models.CharField(max_length=45, null=False, verbose_name='RIF de la empresa')
 
     class Meta:

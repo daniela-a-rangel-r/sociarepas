@@ -1,0 +1,137 @@
+{% extends 'home.html' %}
+{% block content %}
+{% load static %}
+{% load widget_tweaks %}
+
+<div class="head-title">
+    <div class="left">
+        <h1>Proveedores</h1>
+    </div>
+</div>
+
+<div class="table-data">
+    <div class="order">
+        <button class="btn btn-md btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#register-supplier-modal">
+            <i class="bx bx-plus"></i> <strong>Añadir Proveedor</strong>
+        </button>
+        <table id="datatable-supplier">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Nombre</th>
+                    <th>Dirección</th>
+                    <th>Numero de telefono</th>
+                    <th>RIF</th>
+                    <th>Opciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for supplier in supplier %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ supplier.name }}</td>
+                    <td>{{ supplier.address }}</td>
+                    <td>{{ supplier.phone_number }}</td>
+                    <td>{{ supplier.rif }}</td>
+                    <td>
+                        <button class="btn btn-sm btn-primary edit-supplier-button" data-id="{{ supplier.id }}"
+                            data-name="{{ supplier.name }}" data-address="{{ supplier.address }}"
+                            data-phone_number="{{ supplier.phone_number }}" data-rif="{{ supplier.rif }}"
+                            data-bs-toggle="modal" data-bs-target="#edit-supplier-modal">
+                            <i class="bx bx-pencil"></i>
+                        </button>
+                        <button class="btn btn-danger btn-sm delete-supplier-button" data-id="{{ supplier.id }}">
+                            <i class="bx bx-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Modal de Registro de Relleno -->
+<div class="modal fade" id="register-supplier-modal" tabindex="-1" aria-labelledby="registerModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="registerModalLabel">Añadir Relleno</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="supplier-form" action="{% url 'food_filling:supplier_create' %}" method="post">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="name">Nombre del Proveedor</label>
+                        {{ supplier_create_form.name }}
+                    </div>
+                    <div class="mb-3">
+                        <label for="address">Dirección del Proveedor</label>
+                        {{ supplier_create_form.address }}
+                    </div>
+                    <div class="mb-3">
+                        <label for="phone_number">Número del Proveedor</label>
+                        {{ supplier_create_form.phone_number }}
+                    </div>
+                    <div class="mb-3">
+                        <label for="rif">RIF del Proveedor</label>
+                        {{ supplier_create_form.rif }}
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de edicion de relleno -->
+<div class="modal fade" id="edit-supplier-modal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel">Editar Producto</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="edit_supplier-form" data-base-action="{% url 'food_filling:supplier_edit' 0 %}"
+                action="{% url 'food_filling:supplier_edit' 0 %}" method="post">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="name">Nombre del Proveedor</label>
+                        {{ supplier_edit_form.name }}
+                    </div>
+                    <div class="mb-3">
+                        <label for="address">Dirección del Proveedor</label>
+                        {{ supplier_edit_form.address }}
+                    </div>
+                    <div class="mb-3">
+                        <label for="phone_number">Número del Proveedor</label>
+                        {{ supplier_edit_form.phone_number }}
+                    </div>
+                    <div class="mb-3">
+                        <label for="rif">RIF del Proveedor</label>
+                        {{ supplier_edit_form.rif }}
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'assets/js/food_filling/datatable-suppliers.js' %}"></script>
+<script src="{% static 'assets/js/food_filling/numeric-only.js' %}"></script>
+<script src="{% static 'assets/js/food_filling/sweet-alert-supplier.js' %}"></script>
+{% endblock %}

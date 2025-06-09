@@ -42,3 +42,39 @@ class StockRequestForm(forms.Form):
         label='Cantidad a solicitar',
         widget=forms.TextInput(attrs={'class': 'form-control numeric-only'})
     )
+
+class SupplierBaseForm(forms.ModelForm):
+    
+    name = forms.CharField(
+        label='Nombre del Proveedor',
+        widget=forms.TextInput(attrs={'class': 'form-control'})
+    )
+    address = forms.CharField(
+        label='Dirección del proveedor',
+        widget=forms.TextInput(attrs={'class': 'form-control'})
+    )
+    phone_number = forms.CharField(
+        label='Número de teléfono del proveedor',
+        widget=forms.TextInput(attrs={'class': 'form-control numeric-only'})
+    )
+    rif = forms.CharField(
+        label='RIF del proveedor',
+        widget=forms.TextInput(attrs={'class': 'form-control numeric-only'})
+    )
+
+    class Meta:
+        model = Supplier
+        fields = ['name', 'address', 'phone_number', 'rif']
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-control'}),
+            'address': forms.TextInput(attrs={'class': 'form-control'}),
+            'phone_number': forms.TextInput(attrs={'class': 'form-control numeric-only'}),
+            'rif': forms.TextInput(attrs={'class': 'form-control numeric-only'})
+        }
+
+class SupplierCreate(SupplierBaseForm):
+    pass
+
+
+class SupplierEdit(SupplierBaseForm):
+    pass
