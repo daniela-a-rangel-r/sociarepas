@@ -35,7 +35,7 @@ def bill(request):
         total_quantity = sum(detail.quantity for detail in details)
         if details:
             payment_type_obj = details[0].fk_payment_type
-            payment_type_display = payment_type_obj.get_payment_type_display() if payment_type_obj else ''
+            payment_type_display = payment_type_obj.name if payment_type_obj else ''
         else:
             payment_type_display = ''
         orders_data.append({
