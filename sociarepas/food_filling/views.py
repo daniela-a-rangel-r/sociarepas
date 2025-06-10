@@ -223,7 +223,7 @@ def supplier_edit(request, supplier_id):
         if supplier_edit_form.is_valid():
             name = supplier_edit_form.cleaned_data['name'].strip()
             rif = supplier_edit_form.cleaned_data['rif'].strip()
-            if Supplier.objects.filter(Q(name__iexact=name) | Q(rif__iexact=rif)).exists():
+            if Supplier.objects.filter((Q(name__iexact=name) | Q(rif__iexact=rif)) & ~Q(pk=supplier.pk)).exists():
                 return JsonResponse({
                     'status': 'error',
                     'message': 'Ya existe un proveedor con este nombre o RIF.'
