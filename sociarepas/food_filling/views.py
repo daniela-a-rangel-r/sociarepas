@@ -7,14 +7,27 @@ from django.contrib.auth.decorators import login_required
 
 @login_required
 def food_filling(request):
-    food_filling = Food_Filling.objects.annotate(total_quantity=Sum('stock__quantity'))
+    food_filling = Food_Filling.objects.annotate(
+        total_quantity=Sum('stock__quantity')
+    )
+    # Obtener el proveedor principal de cada relleno (por ejemplo, el del primer stock)
+    food_filling_list = []
+    for ff in food_filling:
+        stock = ff.stock_set.first()
+        supplier = stock.fk_supplier if stock else None
+        food_filling_list.append({
+            'id': ff.id,
+            'name': ff.name,
+            'total_quantity': ff.total_quantity,
+            'supplier': supplier,
+        })
     food_filling_create_form = Food_FillingCreate()
     food_filling_edit_form = Food_FillingEdit()
     suppliers = Supplier.objects.all()
     stock_request_form = StockRequestForm()
 
     return render(request, 'food_filling.html',{
-        'food_filling' : food_filling,
+        'food_filling' : food_filling_list,
         'food_filling_create_form': food_filling_create_form,
         'food_filling_edit_form': food_filling_edit_form,
         'suppliers': suppliers,
@@ -59,14 +72,31 @@ def food_filling_edit(request, food_filling_id):
     food_filling = get_object_or_404(Food_Filling, pk=food_filling_id)
 
     if request.method == "POST":
-        food_filling_edit_form = food_filling_edit(request.POST, instance=food_filling)
+        food_filling_edit_form = Food_FillingEdit(request.POST, instance=food_filling)
         if food_filling_edit_form.is_valid():
             name = food_filling_edit_form.cleaned_data['name'].strip()
+            supplier = food_filling_edit_form.cleaned_data['fk_supplier']
+            initial_quantity = food_filling_edit_form.cleaned_data['initial_quantity']
+
             if Food_Filling.objects.filter(name__iexact=name).exclude(pk=food_filling.pk).exists():
                 return JsonResponse({'status': 'error', 'message': 'Ya existe un producto con este nombre.'})
 
             try:
                 food_filling_edit_form.save()
+
+                # Actualizar o crear el stock principal
+                stock = Stock.objects.filter(fk_food_filling=food_filling).first()
+                if stock:
+                    stock.fk_supplier = supplier
+                    stock.quantity = initial_quantity
+                    stock.save()
+                else:
+                    Stock.objects.create(
+                        fk_food_filling=food_filling,
+                        fk_supplier=supplier,
+                        quantity=initial_quantity
+                    )
+
                 return JsonResponse({'status': 'success', 'message': 'El producto se ha actualizado correctamente.'})
             except Exception as e:
                 return JsonResponse({'status': 'error', 'message': f'Error inesperado: {str(e)}'})
@@ -89,8 +119,15 @@ def food_filling_edit(request, food_filling_id):
 def food_filling_delete(request, food_filling_id):
     if request.method == 'POST':
         try:
-            food_type = Food_Filling.objects.get(id=food_filling_id)
-            food_type.delete()
+            food_filling = Food_Filling.objects.get(id=food_filling_id)
+            # Verifica si está asociado a alguna arepa
+            from food_filling.models import Food_Filling_Type_Details
+            if Food_Filling_Type_Details.objects.filter(fk_food_filling=food_filling).exists():
+                return JsonResponse({
+                    'success': False,
+                    'message': 'No puedes borrar este relleno porque ya existe una arepa con este relleno.'
+                }, status=400)
+            food_filling.delete()
             return JsonResponse({'success': True, 'message': 'Relleno eliminado correctamente'})
         except Food_Filling.DoesNotExist:
             return JsonResponse({'success': False, 'message': 'El relleno no existe'}, status=404)
