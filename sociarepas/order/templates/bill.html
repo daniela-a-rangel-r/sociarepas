@@ -31,7 +31,7 @@
                     <td>${{ order.order.total }}</td>
                     <td>{{ order.payment_type }}</td>
                     <td>
-                        <button class="btn btn-sm btn-danger">
+                        <button class="btn btn-sm btn-danger generate-pdf-btn" data-row="{{ forloop.counter0 }}">
                             <i class="bx bx-file-report"></i> Generar Factura
                         </button>
                     </td>
@@ -44,5 +44,12 @@
 {% endblock %}
 
 {% block extra_js %}
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.7.0/jspdf.plugin.autotable.min.js"></script>
 <script src="{% static 'assets/js/food_filling/datatable-bill.js' %}"></script>
+<script src="{% static 'assets/js/order/datatable-bill.js' %}"></script>
+<script>
+    
+</script>
 {% endblock %}
