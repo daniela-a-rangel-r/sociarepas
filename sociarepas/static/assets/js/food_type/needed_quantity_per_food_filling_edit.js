@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const fillingsSelect = document.querySelector('#edit_food_type-form #id_fillings');
     const container = document.getElementById('edit-fillings-quantities-container');
     const hiddenInput = document.querySelector('#edit_food_type-form #id_fillings_quantities');
@@ -8,11 +8,22 @@ document.addEventListener('DOMContentLoaded', function() {
     if (hiddenInput && hiddenInput.value) {
         try {
             initialQuantities = JSON.parse(hiddenInput.value);
-        } catch (e) {}
+        } catch (e) { }
     }
 
     function renderQuantityInputs() {
         if (!fillingsSelect || !container) return;
+
+        // ACTUALIZA initialQuantities cada vez que se renderiza
+        if (hiddenInput && hiddenInput.value) {
+            try {
+                initialQuantities = JSON.parse(hiddenInput.value);
+            } catch (e) {
+                initialQuantities = {};
+            }
+        } else {
+            initialQuantities = {};
+        }
 
         // Guarda los valores actuales antes de limpiar
         const currentValues = {};
@@ -42,9 +53,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 ? currentValues[id]
                 : (initialQuantities[id] !== undefined ? initialQuantities[id] : '100');
             div.innerHTML = `
-                <label>Cantidad para ${name} (en gr)</label>
-                <input type="text" min="1" class="form-control numeric-only mb-1" name="filling_qty_${id}" data-filling-id="${id}" value="${value}">
-            `;
+            <label>Cantidad para ${name} (en gr)</label>
+            <input type="text" min="1" class="form-control numeric-only mb-1" name="filling_qty_${id}" data-filling-id="${id}" value="${value}">
+        `;
             container.appendChild(div);
         });
         updateHiddenInput();
@@ -68,4 +79,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     renderQuantityInputs();
+
+    window.renderQuantityInputsEdit = renderQuantityInputs;
 });

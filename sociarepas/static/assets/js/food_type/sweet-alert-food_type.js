@@ -78,16 +78,20 @@ document.querySelectorAll('.edit-food_type-button').forEach(button => {
                     const baseAction = form.getAttribute('data-base-action');
                     form.setAttribute('action', baseAction.replace('0', id));
 
+                    // ...existing code...
                     form.querySelector('input[name="name"]').value = data.data.name;
                     form.querySelector('input[name="price"]').value = data.data.price;
 
-                    $('#edit_food_type-form #id_fillings').val(data.data.fillings.map(String)).trigger('change');
+                    // 1. Primero actualiza el campo oculto de cantidades
                     $('#edit_food_type-form #id_fillings_quantities').val(JSON.stringify(data.data.quantities));
 
+                    // 2. Luego actualiza el select y dispara el cambio
+                    $('#edit_food_type-form #id_fillings').val(data.data.fillings.map(String)).trigger('change');
+
+                    // 3. Forzar renderizado después de un pequeño delay
                     setTimeout(() => {
                         window.renderQuantityInputsEdit && window.renderQuantityInputsEdit();
-                    }, 300);
-
+                    }, 100);
                     // Mostrar el modal
                     const modal = new bootstrap.Modal(document.getElementById('edit-food_type-modal'));
                     modal.show();
@@ -99,60 +103,42 @@ document.querySelectorAll('.edit-food_type-button').forEach(button => {
 });
 
 
-//Eliminar
-$(document).on('click', '.delete-food_type-button', function () {
-    const food_typeId = $(this).data('id');
+//Ocultar
+$(document).on('click', '.toggle-food_type-button', function () {
+    const food_type_id = $(this).data('id');
+    const action = $(this).data('action');
+    let url, title, text, confirmButtonText;
+
+    if (action === 'deactivate') {
+        url = `/food_type/food_type_delete/${food_type_id}/`;
+        title = '¿Ocultar arepa?';
+        text = 'La arepa ya no estará disponible para pedidos, pero no se eliminará.';
+        confirmButtonText = 'Sí, ocultar';
+    } else {
+        url = `/food_type/food_type_restore/${food_type_id}/`;
+        title = '¿Mostrar arepa?';
+        text = 'La arepa volverá a estar disponible para pedidos.';
+        confirmButtonText = 'Sí, mostrar';
+    }
 
     Swal.fire({
-        title: '¿Eliminar arepa?',
-        text: "Esta acción no se puede deshacer",
+        title: title,
+        text: text,
         icon: 'warning',
         showCancelButton: true,
-        confirmButtonText: 'Sí, eliminar',
+        confirmButtonText: confirmButtonText,
         cancelButtonText: 'Cancelar'
     }).then((result) => {
         if (result.isConfirmed) {
-            Swal.fire({
-                title: 'Eliminando...',
-                allowOutsideClick: false,
-                didOpen: () => {
-                    Swal.showLoading();
+            $.post(url, {'csrfmiddlewaretoken': getCookie('csrftoken')}, function (response) {
+                if (response.success) {
+                    Swal.fire('Listo', response.message, 'success').then(() => {
+                        location.reload();
+                    });
+                } else {
+                    Swal.fire('Error', response.message, 'error');
                 }
             });
-
-            fetch(`/food_type/food_type_delete/${food_typeId}/`, {
-                method: 'POST',
-                headers: {
-                    'X-CSRFToken': getCookie('csrftoken'),
-                    'Content-Type': 'application/json'
-                },
-                body: ''
-            })
-                .then(async response => {
-                    Swal.close();
-                    let data;
-                    try {
-                        data = await response.json();
-                    } catch {
-                        data = { success: false, message: 'Respuesta inválida del servidor' };
-                    }
-                    if (response.ok && data.success) {
-                        Swal.fire({
-                            icon: 'success',
-                            title: '¡Eliminado!',
-                            text: 'La arepa ha sido eliminada correctamente.'
-                        }).then(() => {
-                            window.location.reload();
-                        });
-                    } else {
-                        Swal.fire('Error', data.message || 'Error al eliminar', 'error');
-                    }
-                })
-                .catch(error => {
-                    Swal.close();
-                    console.error('Error:', error);
-                    Swal.fire('Error', 'No se pudo completar la eliminación', 'error');
-                });
         }
     });
 });
@@ -181,10 +167,14 @@ $('#edit_food_type-form').on('submit', function (e) {
                 text: response.message,
                 confirmButtonText: 'OK'
             }).then(() => {
-                // Opcional: recarga la página o actualiza la tabla
+                // Cierra la modal correctamente con Bootstrap 5
+                const modalEl = document.getElementById('edit-food_type-modal');
+                const modalInstance = bootstrap.Modal.getInstance(modalEl);
+                if (modalInstance) modalInstance.hide();
+                // Ahora recarga la página
                 location.reload();
             });
-            $('#edit-food_type-modal').modal('hide');
+            // $('#edit-food_type-modal').modal('hide');
         } else {
             Swal.fire({
                 icon: 'error',

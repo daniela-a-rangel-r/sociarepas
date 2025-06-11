@@ -10,7 +10,7 @@ from django.db.models import Sum, F, Q
 @login_required
 def order(request):
     food_types = []
-    for food_type in Food_Type.objects.all():
+    for food_type in Food_Type.objects.filter(is_active=True):
         fillings = Food_Filling_Type_Details.objects.filter(fk_food_type=food_type)
         can_make = True
         for filling in fillings:

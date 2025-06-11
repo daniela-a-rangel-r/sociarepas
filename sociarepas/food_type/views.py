@@ -98,8 +98,23 @@ def food_type_delete(request, food_type_id):
     if request.method == 'POST':
         try:
             food_type = Food_Type.objects.get(id=food_type_id)
-            food_type.delete()
-            return JsonResponse({'success': True, 'message': 'Arepa eliminada correctamente'})
+            food_type.is_active = False
+            food_type.save()
+            return JsonResponse({'success': True, 'message': 'Arepa ocultada correctamente'})
+        except Food_Type.DoesNotExist:
+            return JsonResponse({'success': False, 'message': 'La arepa no existe'}, status=404)
+        except Exception as e:
+            return JsonResponse({'success': False, 'message': str(e)}, status=500)
+    return JsonResponse({'success': False, 'message': 'Método no permitido'}, status=405)
+
+@login_required
+def food_type_restore(request, food_type_id):
+    if request.method == 'POST':
+        try:
+            food_type = Food_Type.objects.get(id=food_type_id)
+            food_type.is_active = True
+            food_type.save()
+            return JsonResponse({'success': True, 'message': 'Arepa restaurada correctamente'})
         except Food_Type.DoesNotExist:
             return JsonResponse({'success': False, 'message': 'La arepa no existe'}, status=404)
         except Exception as e:

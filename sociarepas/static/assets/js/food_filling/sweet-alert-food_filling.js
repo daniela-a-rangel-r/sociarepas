@@ -112,6 +112,11 @@ document.addEventListener("DOMContentLoaded", function () {
         .then((data) => {
           if (data.status === "success") {
             Swal.fire("¡Actualizado!", data.message, "success").then(() => {
+              // Cierra la modal correctamente con Bootstrap 5
+              const modalEl = document.getElementById('edit-food_filling-modal');
+              const modalInstance = bootstrap.Modal.getInstance(modalEl);
+              if (modalInstance) modalInstance.hide();
+              // Ahora recarga la página
               window.location.reload();
             });
           } else {

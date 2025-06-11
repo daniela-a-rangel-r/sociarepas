@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', function () {
                             title: '¡Éxito!',
                             text: data.message
                         }).then(() => {
-                            
+
                             window.location.reload();
                         });
                     } else {
@@ -78,7 +78,7 @@ document.addEventListener('DOMContentLoaded', function () {
             document.querySelector('#edit_supplier-form input[name="address"]').value = address;
             document.querySelector('#edit_supplier-form input[name="phone_number"]').value = phone_number;
             document.querySelector('#edit_supplier-form input[name="rif"]').value = rif;
-    
+
 
             const originalAction = document.getElementById('edit_supplier-form').getAttribute('data-base-action');
             document.getElementById('edit_supplier-form').setAttribute('action', originalAction.replace('0', id));
@@ -105,7 +105,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 .then(data => {
                     if (data.status === 'success') {
                         Swal.fire('¡Actualizado!', data.message, 'success').then(() => {
-                            
+                            // Cierra la modal correctamente con Bootstrap 5
+                            const modalEl = document.getElementById('edit-supplier-modal');
+                            const modalInstance = bootstrap.Modal.getInstance(modalEl);
+                            if (modalInstance) modalInstance.hide();
+                            // Ahora recarga la página
                             window.location.reload();
                         });
                     } else {
@@ -162,7 +166,7 @@ $(document).on('click', '.delete-supplier-button', function () {
                             title: '¡Eliminado!',
                             text: 'El relleno ha sido eliminado correctamente.'
                         }).then(() => {
-                            
+
                             window.location.reload();
                         });
                     } else {

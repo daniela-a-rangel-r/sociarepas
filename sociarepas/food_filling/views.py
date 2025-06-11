@@ -254,6 +254,11 @@ def supplier_delete(request, supplier_id):
     if request.method == 'POST':
         try:
             supplier = Supplier.objects.get(id=supplier_id)
+            if Stock.objects.filter(fk_supplier=supplier).exists():
+                return JsonResponse({
+                    'success': False,
+                    'message': 'No puedes borrar este proveedor porque está asociado a uno o más rellenos.'
+                }, status=400)
             supplier.delete()
             return JsonResponse({'success': True, 'message': 'Proveedor eliminado correctamente'})
         except Supplier.DoesNotExist:

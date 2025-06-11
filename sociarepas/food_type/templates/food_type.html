@@ -34,9 +34,17 @@
                             data-name="{{ food_type.name }}" data-price="{{ food_type.price }}">
                             <i class="bx bx-pencil"></i>
                         </button>
-                        <button class="btn btn-danger btn-sm delete-food_type-button" data-id="{{ food_type.id }}">
-                            <i class="bx bx-trash"></i>
+                        {% if food_type.is_active %}
+                        <button class="btn btn-warning btn-sm toggle-food_type-button" data-id="{{ food_type.id }}"
+                            data-action="deactivate">
+                            <i class='bx  bx-eye-slash'></i>
                         </button>
+                        {% else %}
+                        <button class="btn btn-success btn-sm toggle-food_type-button" data-id="{{ food_type.id }}"
+                            data-action="activate">
+                            <i class='bx  bx-eye'></i> 
+                        </button>
+                        {% endif %}
                     </td>
                 </tr>
                 {% endfor %}
