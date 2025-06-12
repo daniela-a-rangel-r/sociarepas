@@ -45,7 +45,9 @@
                     <th>#</th>
                     <th>Nombre</th>
                     <th>Cantidad Disponible</th>
+                    {% if user.is_superuser %}
                     <th>Opciones</th>
+                    {% endif %}
                 </tr>
             </thead>
             <tbody>
@@ -54,12 +56,14 @@
                     <td>{{ forloop.counter }}</td>
                     <td>{{ food.name }}</td>
                     <td>{{ food.total_quantity|default:'0' }} gr</td>
+                    {% if user.is_superuser %}
                     <td>
                         <button class="btn btn-success btn-sm request-stock-button" data-id="{{ food.id }}"
                             data-name="{{ food.name }}" data-bs-toggle="modal" data-bs-target="#request-stock-modal">
                             <i class="bx bx-cart"></i>
                         </button>
                     </td>
+                    {% endif %}
                 </tr>
                 {% endfor %}
             </tbody>
@@ -68,7 +72,8 @@
 </div>
 
 <!-- Modal para solicitar más Stock -->
-<div class="modal fade" id="request-stock-modal" tabindex="-1" aria-labelledby="requestStockModalLabel" aria-hidden="true">
+<div class="modal fade" id="request-stock-modal" tabindex="-1" aria-labelledby="requestStockModalLabel"
+    aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">

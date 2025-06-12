@@ -36,6 +36,7 @@
                     <span class="text">Inicio</span>
                 </a>
             </li>
+            {% if user.is_superuser %}
             <li>
                 <a href="{% url 'home:food_type' %}">
                     <i class='bx  bx-cookie'></i>
@@ -54,6 +55,7 @@
                     <span class="text">Proveedores</span>
                 </a>
             </li>
+            {% endif %}
             <li>
                 <a href="{% url 'home:order' %}">
                     <i class='bx bx-fork-spoon'></i>
