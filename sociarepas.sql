@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 03-06-2025 a las 17:40:46
--- Versión del servidor: 10.11.11-MariaDB-0+deb12u1
--- Versión de PHP: 8.0.30
+-- Servidor: 127.0.0.1
+-- Tiempo de generación: 12-06-2025 a las 17:03:55
+-- Versión del servidor: 11.7.2-MariaDB
+-- Versión de PHP: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -98,30 +98,30 @@ INSERT INTO `auth_permission` (`id`, `name`, `content_type_id`, `codename`) VALU
 (34, 'Can change stock', 9, 'change_stock'),
 (35, 'Can delete stock', 9, 'delete_stock'),
 (36, 'Can view stock', 9, 'view_stock'),
-(37, 'Can add food_ type', 10, 'add_food_type'),
-(38, 'Can change food_ type', 10, 'change_food_type'),
-(39, 'Can delete food_ type', 10, 'delete_food_type'),
-(40, 'Can view food_ type', 10, 'view_food_type'),
-(41, 'Can add client', 11, 'add_client'),
-(42, 'Can change client', 11, 'change_client'),
-(43, 'Can delete client', 11, 'delete_client'),
-(44, 'Can view client', 11, 'view_client'),
-(45, 'Can add payment_ type', 12, 'add_payment_type'),
-(46, 'Can change payment_ type', 12, 'change_payment_type'),
-(47, 'Can delete payment_ type', 12, 'delete_payment_type'),
-(48, 'Can view payment_ type', 12, 'view_payment_type'),
-(49, 'Can add order', 13, 'add_order'),
-(50, 'Can change order', 13, 'change_order'),
-(51, 'Can delete order', 13, 'delete_order'),
-(52, 'Can view order', 13, 'view_order'),
-(53, 'Can add order_ details', 14, 'add_order_details'),
-(54, 'Can change order_ details', 14, 'change_order_details'),
-(55, 'Can delete order_ details', 14, 'delete_order_details'),
-(56, 'Can view order_ details', 14, 'view_order_details'),
-(57, 'Can add food_ filling_ type_ details', 15, 'add_food_filling_type_details'),
-(58, 'Can change food_ filling_ type_ details', 15, 'change_food_filling_type_details'),
-(59, 'Can delete food_ filling_ type_ details', 15, 'delete_food_filling_type_details'),
-(60, 'Can view food_ filling_ type_ details', 15, 'view_food_filling_type_details');
+(37, 'Can add food_ filling_ type_ details', 10, 'add_food_filling_type_details'),
+(38, 'Can change food_ filling_ type_ details', 10, 'change_food_filling_type_details'),
+(39, 'Can delete food_ filling_ type_ details', 10, 'delete_food_filling_type_details'),
+(40, 'Can view food_ filling_ type_ details', 10, 'view_food_filling_type_details'),
+(41, 'Can add food_ type', 11, 'add_food_type'),
+(42, 'Can change food_ type', 11, 'change_food_type'),
+(43, 'Can delete food_ type', 11, 'delete_food_type'),
+(44, 'Can view food_ type', 11, 'view_food_type'),
+(45, 'Can add client', 12, 'add_client'),
+(46, 'Can change client', 12, 'change_client'),
+(47, 'Can delete client', 12, 'delete_client'),
+(48, 'Can view client', 12, 'view_client'),
+(49, 'Can add payment_ type', 13, 'add_payment_type'),
+(50, 'Can change payment_ type', 13, 'change_payment_type'),
+(51, 'Can delete payment_ type', 13, 'delete_payment_type'),
+(52, 'Can view payment_ type', 13, 'view_payment_type'),
+(53, 'Can add order', 14, 'add_order'),
+(54, 'Can change order', 14, 'change_order'),
+(55, 'Can delete order', 14, 'delete_order'),
+(56, 'Can view order', 14, 'view_order'),
+(57, 'Can add order_ details', 15, 'add_order_details'),
+(58, 'Can change order_ details', 15, 'change_order_details'),
+(59, 'Can delete order_ details', 15, 'delete_order_details'),
+(60, 'Can view order_ details', 15, 'view_order_details');
 
 -- --------------------------------------------------------
 
@@ -142,6 +142,14 @@ CREATE TABLE `auth_user` (
   `is_active` tinyint(1) NOT NULL,
   `date_joined` datetime(6) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `auth_user`
+--
+
+INSERT INTO `auth_user` (`id`, `password`, `last_login`, `is_superuser`, `username`, `first_name`, `last_name`, `email`, `is_staff`, `is_active`, `date_joined`) VALUES
+(1, 'pbkdf2_sha256$1000000$ml7ItFdF5mCZey1220mxPp$ZuKduX4rbzygxmWi5Pf1N8cKHJSy4fCPa8VZfFkExZY=', '2025-06-12 15:01:22.286867', 1, 'arepamaster', '', '', 'a@gmail.com', 1, 1, '2025-06-10 00:07:07.582254'),
+(2, 'pbkdf2_sha256$1000000$LekvdQ8n5IOxG4BnTDl5Aw$GXXBIug2fnQVmQhIcZgwdcrJxhA+dcS0S9rJn1YL7QY=', '2025-06-12 14:59:32.880765', 0, 'arepauser', '', '', 'user@gmail.com', 1, 1, '2025-06-12 14:45:02.787923');
 
 -- --------------------------------------------------------
 
@@ -178,7 +186,8 @@ CREATE TABLE `client` (
   `name` varchar(45) NOT NULL,
   `lastname` varchar(45) NOT NULL,
   `address` varchar(45) NOT NULL,
-  `phone_number` int(11) NOT NULL
+  `phone_number` int(11) NOT NULL,
+  `identity_number` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -221,14 +230,14 @@ INSERT INTO `django_content_type` (`id`, `app_label`, `model`) VALUES
 (4, 'auth', 'user'),
 (5, 'contenttypes', 'contenttype'),
 (8, 'food_filling', 'food_filling'),
-(15, 'food_filling', 'food_filling_type_details'),
+(10, 'food_filling', 'food_filling_type_details'),
 (9, 'food_filling', 'stock'),
 (7, 'food_filling', 'supplier'),
-(10, 'food_type', 'food_type'),
-(11, 'order', 'client'),
-(13, 'order', 'order'),
-(14, 'order', 'order_details'),
-(12, 'order', 'payment_type'),
+(11, 'food_type', 'food_type'),
+(12, 'order', 'client'),
+(14, 'order', 'order'),
+(15, 'order', 'order_details'),
+(13, 'order', 'payment_type'),
 (6, 'sessions', 'session');
 
 -- --------------------------------------------------------
@@ -249,32 +258,43 @@ CREATE TABLE `django_migrations` (
 --
 
 INSERT INTO `django_migrations` (`id`, `app`, `name`, `applied`) VALUES
-(1, 'contenttypes', '0001_initial', '2025-06-03 13:13:31.953270'),
-(2, 'auth', '0001_initial', '2025-06-03 13:13:32.765277'),
-(3, 'admin', '0001_initial', '2025-06-03 13:13:32.871735'),
-(4, 'admin', '0002_logentry_remove_auto_add', '2025-06-03 13:13:32.894362'),
-(5, 'admin', '0003_logentry_add_action_flag_choices', '2025-06-03 13:13:32.923582'),
-(6, 'contenttypes', '0002_remove_content_type_name', '2025-06-03 13:13:33.011773'),
-(7, 'auth', '0002_alter_permission_name_max_length', '2025-06-03 13:13:33.063566'),
-(8, 'auth', '0003_alter_user_email_max_length', '2025-06-03 13:13:33.102934'),
-(9, 'auth', '0004_alter_user_username_opts', '2025-06-03 13:13:33.131113'),
-(10, 'auth', '0005_alter_user_last_login_null', '2025-06-03 13:13:33.183854'),
-(11, 'auth', '0006_require_contenttypes_0002', '2025-06-03 13:13:33.186653'),
-(12, 'auth', '0007_alter_validators_add_error_messages', '2025-06-03 13:13:33.212349'),
-(13, 'auth', '0008_alter_user_username_max_length', '2025-06-03 13:13:33.251354'),
-(14, 'auth', '0009_alter_user_last_name_max_length', '2025-06-03 13:13:33.293782'),
-(15, 'auth', '0010_alter_group_name_max_length', '2025-06-03 13:13:33.330168'),
-(16, 'auth', '0011_update_proxy_permissions', '2025-06-03 13:13:33.353622'),
-(17, 'auth', '0012_alter_user_first_name_max_length', '2025-06-03 13:13:33.391909'),
-(18, 'food_type', '0001_initial', '2025-06-03 13:13:33.408298'),
-(19, 'food_filling', '0001_initial', '2025-06-03 13:13:33.535283'),
-(20, 'order', '0001_initial', '2025-06-03 13:13:33.721655'),
-(21, 'sessions', '0001_initial', '2025-06-03 13:13:33.755774'),
-(22, 'food_filling', '0002_remove_supplier_name_supplier_supplier', '2025-06-03 14:37:02.688566'),
-(23, 'order', '0002_remove_payment_type_name_payment_type_payment_type', '2025-06-03 14:37:02.741770'),
-(24, 'food_filling', '0003_food_filling_type_details', '2025-06-03 14:58:16.722038'),
-(25, 'food_filling', '0004_remove_food_filling_fk_food_type', '2025-06-03 14:59:11.590748'),
-(26, 'food_filling', '0005_food_filling_quantity', '2025-06-03 15:17:13.378904');
+(1, 'contenttypes', '0001_initial', '2025-06-10 00:03:42.724697'),
+(2, 'auth', '0001_initial', '2025-06-10 00:04:07.004346'),
+(3, 'admin', '0001_initial', '2025-06-10 00:04:11.921461'),
+(4, 'admin', '0002_logentry_remove_auto_add', '2025-06-10 00:04:11.989820'),
+(5, 'admin', '0003_logentry_add_action_flag_choices', '2025-06-10 00:04:12.142394'),
+(6, 'contenttypes', '0002_remove_content_type_name', '2025-06-10 00:04:15.687031'),
+(7, 'auth', '0002_alter_permission_name_max_length', '2025-06-10 00:04:17.804626'),
+(8, 'auth', '0003_alter_user_email_max_length', '2025-06-10 00:04:18.995271'),
+(9, 'auth', '0004_alter_user_username_opts', '2025-06-10 00:04:19.054360'),
+(10, 'auth', '0005_alter_user_last_login_null', '2025-06-10 00:04:21.296083'),
+(11, 'auth', '0006_require_contenttypes_0002', '2025-06-10 00:04:21.371626'),
+(12, 'auth', '0007_alter_validators_add_error_messages', '2025-06-10 00:04:21.416289'),
+(13, 'auth', '0008_alter_user_username_max_length', '2025-06-10 00:04:22.895773'),
+(14, 'auth', '0009_alter_user_last_name_max_length', '2025-06-10 00:04:24.228264'),
+(15, 'auth', '0010_alter_group_name_max_length', '2025-06-10 00:04:25.829888'),
+(16, 'auth', '0011_update_proxy_permissions', '2025-06-10 00:04:25.904140'),
+(17, 'auth', '0012_alter_user_first_name_max_length', '2025-06-10 00:04:27.399439'),
+(18, 'food_type', '0001_initial', '2025-06-10 00:04:27.994616'),
+(19, 'food_filling', '0001_initial', '2025-06-10 00:04:38.394960'),
+(20, 'food_filling', '0002_remove_supplier_name_supplier_supplier', '2025-06-10 00:04:42.552114'),
+(21, 'food_filling', '0003_food_filling_type_details', '2025-06-10 00:04:48.855189'),
+(22, 'food_filling', '0004_remove_food_filling_fk_food_type', '2025-06-10 00:04:59.555073'),
+(23, 'food_filling', '0005_food_filling_quantity', '2025-06-10 00:05:01.408952'),
+(24, 'food_filling', '0006_remove_stock_fk_food_type_stock_fk_food_filling', '2025-06-10 00:05:09.943397'),
+(25, 'food_filling', '0007_food_filling_type_details_needed_quantity_and_more', '2025-06-10 00:05:13.080661'),
+(26, 'food_filling', '0008_alter_food_filling_quantity_stockrequest', '2025-06-10 00:05:18.134039'),
+(27, 'food_filling', '0009_remove_food_filling_quantity_and_more', '2025-06-10 00:05:20.899722'),
+(28, 'food_filling', '0010_delete_stockrequest', '2025-06-10 00:05:21.719031'),
+(29, 'food_filling', '0011_remove_supplier_supplier_supplier_address_and_more', '2025-06-10 00:05:33.965628'),
+(30, 'food_type', '0002_alter_food_type_price', '2025-06-10 00:05:35.390527'),
+(31, 'order', '0001_initial', '2025-06-10 00:05:48.956967'),
+(32, 'order', '0002_remove_payment_type_name_payment_type_payment_type', '2025-06-10 00:05:50.890876'),
+(33, 'order', '0003_client_identity_number', '2025-06-10 00:05:52.357282'),
+(34, 'order', '0004_remove_payment_type_payment_type_payment_type_name', '2025-06-10 00:05:54.798478'),
+(35, 'sessions', '0001_initial', '2025-06-10 00:05:56.056947'),
+(36, 'food_filling', '0012_alter_supplier_phone_number', '2025-06-10 00:32:44.081115'),
+(37, 'food_type', '0003_food_type_is_active', '2025-06-12 14:47:19.480254');
 
 -- --------------------------------------------------------
 
@@ -288,6 +308,23 @@ CREATE TABLE `django_session` (
   `expire_date` datetime(6) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `django_session`
+--
+
+INSERT INTO `django_session` (`session_key`, `session_data`, `expire_date`) VALUES
+('71owe5f2eezqhad4wma695f8p0ec48s0', '.eJxVjMsOwiAQRf-FtSE8hIJL9_0GMswMUjU0Ke3K-O_apAvd3nPOfYkE21rT1nlJE4mL0OL0u2XAB7cd0B3abZY4t3WZstwVedAux5n4eT3cv4MKvX7rqCN7ZMzZD8yFvGKlwVOwKjpjgSEYKq4odIzOnJ0pWVltsx0A2AXx_gAGAjiH:1uPjQg:THuS80joBMujndShyolysilqD-RET9lKahMAclL182Q', '2025-06-26 15:01:22.314541'),
+('a6ptb0ap4k7iobw4yls334cdg6ul335w', '.eJxVjMsOwiAQRf-FtSE8hIJL9_0GMswMUjU0Ke3K-O_apAvd3nPOfYkE21rT1nlJE4mL0OL0u2XAB7cd0B3abZY4t3WZstwVedAux5n4eT3cv4MKvX7rqCN7ZMzZD8yFvGKlwVOwKjpjgSEYKq4odIzOnJ0pWVltsx0A2AXx_gAGAjiH:1uOmmy:uv61WirwkxfMIHAAANv8HNssqcBqVGI3yQNs1OJMLDE', '2025-06-24 00:24:28.732042'),
+('g6rqvhz94tfn7ar316mev2guiseyv06z', '.eJxVjMsOwiAQRf-FtSE8hIJL9_0GMswMUjU0Ke3K-O_apAvd3nPOfYkE21rT1nlJE4mL0OL0u2XAB7cd0B3abZY4t3WZstwVedAux5n4eT3cv4MKvX7rqCN7ZMzZD8yFvGKlwVOwKjpjgSEYKq4odIzOnJ0pWVltsx0A2AXx_gAGAjiH:1uOmWa:ETijNr9bYE1s_iR_XTMDYJDAZDCqXfwp1oDYOcy1m9Q', '2025-06-24 00:07:32.979028'),
+('ipwihrxz46z0xqsy8oz6hii15od0qu3f', '.eJxVjMsOwiAQRf-FtSE8hIJL9_0GMswMUjU0Ke3K-O_apAvd3nPOfYkE21rT1nlJE4mL0OL0u2XAB7cd0B3abZY4t3WZstwVedAux5n4eT3cv4MKvX7rqCN7ZMzZD8yFvGKlwVOwKjpjgSEYKq4odIzOnJ0pWVltsx0A2AXx_gAGAjiH:1uPjQg:THuS80joBMujndShyolysilqD-RET9lKahMAclL182Q', '2025-06-26 15:01:22.322893'),
+('jo053sih6g8kwuci83skppt7fhh0a6s3', '.eJxVjMsOwiAQRf-FtSE8hIJL9_0GMswMUjU0Ke3K-O_apAvd3nPOfYkE21rT1nlJE4mL0OL0u2XAB7cd0B3abZY4t3WZstwVedAux5n4eT3cv4MKvX7rqCN7ZMzZD8yFvGKlwVOwKjpjgSEYKq4odIzOnJ0pWVltsx0A2AXx_gAGAjiH:1uOpYV:zdGYf5HOrGdWosCZRHNmvIQ0b1Reuw6NXBbPEmJkGD4', '2025-06-24 03:21:43.475540'),
+('ju3x4alc30cvo2kz597fp4o02xwaa3ny', '.eJxVjDsOwjAQBe_iGln-Z01JnzNYa6-NA8iR4qRC3J1ESgHtzLz3ZgG3tYat5yVMxK5Mscsvi5ieuR2CHtjuM09zW5cp8iPhp-18nCm_bmf7d1Cx132NRUMCM2BMyhVDHpXxVjoAr23JJIAsFhhoxxS1AY9ao7TWeSmEI_b5AuR1N1w:1uPjOv:-kAlmWk54eOtmnhbLEQX6Zpv0uM5kHHLM2eTNg48zrw', '2025-06-26 14:59:33.111242'),
+('nrayy1748exlfjuzrd4bvghp7ffhq021', '.eJxVjMsOwiAQRf-FtSE8hIJL9_0GMswMUjU0Ke3K-O_apAvd3nPOfYkE21rT1nlJE4mL0OL0u2XAB7cd0B3abZY4t3WZstwVedAux5n4eT3cv4MKvX7rqCN7ZMzZD8yFvGKlwVOwKjpjgSEYKq4odIzOnJ0pWVltsx0A2AXx_gAGAjiH:1uOo7Q:Evpfa8ZZhzdJsue_d-gYQW4MFOlhVuWjwgOxDq2-dOs', '2025-06-24 01:49:40.929031'),
+('nrb3fowyras22g3x90asmcqigs91m1an', '.eJxVjMsOwiAQRf-FtSE8hIJL9_0GMswMUjU0Ke3K-O_apAvd3nPOfYkE21rT1nlJE4mL0OL0u2XAB7cd0B3abZY4t3WZstwVedAux5n4eT3cv4MKvX7rqCN7ZMzZD8yFvGKlwVOwKjpjgSEYKq4odIzOnJ0pWVltsx0A2AXx_gAGAjiH:1uPjDP:vt7IxxLwxy9IimGPFkSF-b4gwQmpzpWm9vlligZlat4', '2025-06-26 14:47:39.648701'),
+('q8r2kgymt3bxb6daa3gbyebi3x8xf966', '.eJxVjMsOwiAQRf-FtSE8hIJL9_0GMswMUjU0Ke3K-O_apAvd3nPOfYkE21rT1nlJE4mL0OL0u2XAB7cd0B3abZY4t3WZstwVedAux5n4eT3cv4MKvX7rqCN7ZMzZD8yFvGKlwVOwKjpjgSEYKq4odIzOnJ0pWVltsx0A2AXx_gAGAjiH:1uOpYV:zdGYf5HOrGdWosCZRHNmvIQ0b1Reuw6NXBbPEmJkGD4', '2025-06-24 03:21:43.475798'),
+('slcc8vng5wv7qy4yypsla9mr3fjakaju', '.eJxVjMsOwiAQRf-FtSE8hIJL9_0GMswMUjU0Ke3K-O_apAvd3nPOfYkE21rT1nlJE4mL0OL0u2XAB7cd0B3abZY4t3WZstwVedAux5n4eT3cv4MKvX7rqCN7ZMzZD8yFvGKlwVOwKjpjgSEYKq4odIzOnJ0pWVltsx0A2AXx_gAGAjiH:1uOmoh:juxa4eUNaUU-DpX0bx-sSGo8IGnXmtEXS6Y_3iE7D3s', '2025-06-24 00:26:15.667124'),
+('y9xcgtothqpp58nx2bhx0olbefoowh4m', '.eJxVjDsOwjAQBe_iGln-Z01JnzNYa6-NA8iR4qRC3J1ESgHtzLz3ZgG3tYat5yVMxK5Mscsvi5ieuR2CHtjuM09zW5cp8iPhp-18nCm_bmf7d1Cx132NRUMCM2BMyhVDHpXxVjoAr23JJIAsFhhoxxS1AY9ao7TWeSmEI_b5AuR1N1w:1uPjO5:WHCVepYO7X8QJ8VgEK-8THsaR0qtmuIs8iaWw-i94NI', '2025-06-26 14:58:41.498304');
+
 -- --------------------------------------------------------
 
 --
@@ -296,33 +333,8 @@ CREATE TABLE `django_session` (
 
 CREATE TABLE `food_filling` (
   `id` bigint(20) NOT NULL,
-  `name` varchar(45) NOT NULL,
-  `quantity` int(11) DEFAULT NULL
+  `name` varchar(45) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `food_filling`
---
-
-INSERT INTO `food_filling` (`id`, `name`, `quantity`) VALUES
-(1, 'Queso amarillo', 100),
-(2, 'Queso guayanés', 100),
-(3, 'Queso blanco', 100),
-(4, 'Huevo', 100),
-(5, 'Pollo', 100),
-(6, 'Caraotas', 100),
-(7, 'Carne molida', 100),
-(8, 'Cebolla', 100),
-(9, 'Tomate', 100),
-(10, 'Lechuga', 100),
-(11, 'Carne de res', 100),
-(12, 'Aguacate', 100),
-(13, 'Carne mechada', 100),
-(14, 'Tajadas', 100),
-(15, 'Ají dulce', 100),
-(16, 'Pernil de cerdo', 100),
-(17, 'Mayonesa', 100),
-(18, 'Salsa de tomate', 100);
 
 -- --------------------------------------------------------
 
@@ -333,53 +345,9 @@ INSERT INTO `food_filling` (`id`, `name`, `quantity`) VALUES
 CREATE TABLE `food_filling_food_filling_type_details` (
   `id` bigint(20) NOT NULL,
   `fk_food_filling_id` bigint(20) NOT NULL,
-  `fk_food_type_id` bigint(20) NOT NULL
+  `fk_food_type_id` bigint(20) NOT NULL,
+  `needed_quantity` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `food_filling_food_filling_type_details`
---
-
-INSERT INTO `food_filling_food_filling_type_details` (`id`, `fk_food_filling_id`, `fk_food_type_id`) VALUES
-(1, 4, 1),
-(2, 5, 2),
-(3, 1, 2),
-(4, 6, 3),
-(5, 3, 3),
-(6, 18, 4),
-(7, 8, 4),
-(8, 7, 4),
-(9, 9, 4),
-(10, 10, 4),
-(11, 17, 4),
-(17, 11, 5),
-(18, 9, 5),
-(19, 12, 5),
-(20, 2, 5),
-(21, 13, 6),
-(22, 6, 6),
-(23, 14, 6),
-(24, 3, 6),
-(25, 3, 7),
-(26, 6, 7),
-(27, 12, 7),
-(28, 13, 8),
-(29, 1, 8),
-(30, 4, 9),
-(31, 8, 9),
-(32, 9, 9),
-(33, 15, 9),
-(34, 16, 10),
-(35, 9, 10),
-(36, 17, 10),
-(40, 5, 11),
-(41, 17, 11),
-(42, 12, 11),
-(43, 16, 12),
-(44, 1, 12),
-(45, 11, 13),
-(46, 3, 13),
-(47, 12, 13);
 
 -- --------------------------------------------------------
 
@@ -390,27 +358,9 @@ INSERT INTO `food_filling_food_filling_type_details` (`id`, `fk_food_filling_id`
 CREATE TABLE `food_type` (
   `id` bigint(20) NOT NULL,
   `name` varchar(45) NOT NULL,
-  `price` int(11) NOT NULL
+  `price` decimal(11,2) NOT NULL,
+  `is_active` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `food_type`
---
-
-INSERT INTO `food_type` (`id`, `name`, `price`) VALUES
-(1, 'A Caballo', 5),
-(2, 'Catira', 4),
-(3, 'Dominó', 6),
-(4, 'Gringa', 8),
-(5, 'Llanera', 3),
-(6, 'Pabellón', 8),
-(7, 'Patapata', 9),
-(8, 'Pelúa', 4),
-(9, 'Perico', 3),
-(10, 'Pernil', 2),
-(11, 'Reina Pepeada', 6),
-(12, 'Rumbera', 7),
-(13, 'Santa Bárbara', 5);
 
 -- --------------------------------------------------------
 
@@ -446,17 +396,17 @@ CREATE TABLE `order_details` (
 
 CREATE TABLE `payment_type` (
   `id` bigint(20) NOT NULL,
-  `payment_type` int(11) DEFAULT NULL
+  `name` varchar(45) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `payment_type`
 --
 
-INSERT INTO `payment_type` (`id`, `payment_type`) VALUES
-(1, 1),
-(2, 2),
-(3, 3);
+INSERT INTO `payment_type` (`id`, `name`) VALUES
+(1, 'Pago Móvil'),
+(2, 'Punto de Venta '),
+(3, 'Efectivo');
 
 -- --------------------------------------------------------
 
@@ -467,8 +417,8 @@ INSERT INTO `payment_type` (`id`, `payment_type`) VALUES
 CREATE TABLE `stock` (
   `id` bigint(20) NOT NULL,
   `quantity` int(11) NOT NULL,
-  `fk_food_type_id` bigint(20) NOT NULL,
-  `fk_supplier_id` bigint(20) NOT NULL
+  `fk_supplier_id` bigint(20) NOT NULL,
+  `fk_food_filling_id` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -479,19 +429,11 @@ CREATE TABLE `stock` (
 
 CREATE TABLE `supplier` (
   `id` bigint(20) NOT NULL,
-  `supplier` int(11) DEFAULT NULL
+  `address` varchar(45) NOT NULL,
+  `name` varchar(45) NOT NULL,
+  `phone_number` varchar(20) NOT NULL,
+  `rif` varchar(45) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `supplier`
---
-
-INSERT INTO `supplier` (`id`, `supplier`) VALUES
-(1, 1),
-(2, 2),
-(3, 3),
-(4, 4),
-(5, 5);
 
 --
 -- Índices para tablas volcadas
@@ -623,8 +565,8 @@ ALTER TABLE `payment_type`
 --
 ALTER TABLE `stock`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `stock_fk_food_type_id_01bcd55d_fk_food_type_id` (`fk_food_type_id`),
-  ADD KEY `stock_fk_supplier_id_f9435ece_fk_supplier_id` (`fk_supplier_id`);
+  ADD KEY `stock_fk_supplier_id_f9435ece_fk_supplier_id` (`fk_supplier_id`),
+  ADD KEY `stock_fk_food_filling_id_78639aad_fk_food_filling_id` (`fk_food_filling_id`);
 
 --
 -- Indices de la tabla `supplier`
@@ -658,7 +600,7 @@ ALTER TABLE `auth_permission`
 -- AUTO_INCREMENT de la tabla `auth_user`
 --
 ALTER TABLE `auth_user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `auth_user_groups`
@@ -676,7 +618,7 @@ ALTER TABLE `auth_user_user_permissions`
 -- AUTO_INCREMENT de la tabla `client`
 --
 ALTER TABLE `client`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `django_admin_log`
@@ -694,37 +636,37 @@ ALTER TABLE `django_content_type`
 -- AUTO_INCREMENT de la tabla `django_migrations`
 --
 ALTER TABLE `django_migrations`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT de la tabla `food_filling`
 --
 ALTER TABLE `food_filling`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `food_filling_food_filling_type_details`
 --
 ALTER TABLE `food_filling_food_filling_type_details`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT de la tabla `food_type`
 --
 ALTER TABLE `food_type`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `order`
 --
 ALTER TABLE `order`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `order_details`
 --
 ALTER TABLE `order_details`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `payment_type`
@@ -736,13 +678,13 @@ ALTER TABLE `payment_type`
 -- AUTO_INCREMENT de la tabla `stock`
 --
 ALTER TABLE `stock`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `supplier`
 --
 ALTER TABLE `supplier`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Restricciones para tablas volcadas
@@ -807,7 +749,7 @@ ALTER TABLE `order_details`
 -- Filtros para la tabla `stock`
 --
 ALTER TABLE `stock`
-  ADD CONSTRAINT `stock_fk_food_type_id_01bcd55d_fk_food_type_id` FOREIGN KEY (`fk_food_type_id`) REFERENCES `food_type` (`id`),
+  ADD CONSTRAINT `stock_fk_food_filling_id_78639aad_fk_food_filling_id` FOREIGN KEY (`fk_food_filling_id`) REFERENCES `food_filling` (`id`),
   ADD CONSTRAINT `stock_fk_supplier_id_f9435ece_fk_supplier_id` FOREIGN KEY (`fk_supplier_id`) REFERENCES `supplier` (`id`);
 COMMIT;
 
