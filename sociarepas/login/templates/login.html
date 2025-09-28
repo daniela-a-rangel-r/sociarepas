@@ -8,6 +8,9 @@
     <title>Iniciar Sesión</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="title" content="Iniciar Sesión" />
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static 'assets/bootstrap-5.3.6/css/bootstrap.css' %}" />
+    <link rel="stylesheet" href="{% static 'assets/bootstrap-5.3.6/css/bootstrap.min.css' %}" />
     <!-- AdminLTE CSS -->
     <link rel="stylesheet" href="{% static 'assets/dist/css/adminlte.css' %}" />
     <!-- Boxicons -->
@@ -18,72 +21,78 @@
 </head>
 
 <body class="login-page bg-body-secondary">
-    <div class="overlay">
-    </div>
-    <div class="login-box">
-        <div class="login-outer-box">
-            <div class="card">
-                <div class="card-body login-card-body card-flex">
-                    <div class="card-space"></div>
-                    <div class="card-content">
-                        <div class="login-logo">
-                            <a id="login-title">
-                                <b id="system-title" class="elegant-font">Sociarepas</b>
-                                <img src="{% static 'assets/img/arepa.svg' %}" alt="Ícono de arepa" class="card-arepa">
-                            </a>
-                        </div>
-                        <div class="card">
-                            <div class="card-body login-card-body">
-                                <p class="login-box-msg">Iniciar Sesión</p>
-                                <form id="login-form" method="post">
-                                    {% csrf_token %}
-                                    <div class="input-group mb-3">
-                                        <div class="input-group-text"><i class="bx bxs-user"></i></div>
-                                        <input type="text" name="username" class="form-control" placeholder="Usuario"
-                                            required />
+    <div class="overlay"></div>
+    <div class="container-fluid min-vh-100 d-flex align-items-center justify-content-center">
+        <div class="row w-100 justify-content-center">
+            <div class="col-12 col-md-10 col-lg-8 col-xl-6">
+                <div class="login-box p-0 m-0">
+                    <div class="login-outer-box p-3 flex-column flex-lg-row d-flex align-items-center justify-content-center">
+                        <div class="card mb-3 w-100">
+                            <div class="card-body login-card-body card-flex">
+                                <div class="card-space"></div>
+                                <div class="card-content">
+                                    <div class="login-logo">
+                                        <a id="login-title">
+                                            <b id="system-title" class="elegant-font">Sociarepas</b>
+                                            <img src="{% static 'assets/img/arepa.svg' %}" alt="Ícono de arepa" class="card-arepa">
+                                        </a>
                                     </div>
-                                    <div class="input-group mb-3">
-                                        <div class="input-group-text"><i class="bx bxs-lock"></i></div>
-                                        <input type="password" name="password" id="password" class="form-control"
-                                            placeholder="Contraseña" required />
-                                        <button type="button" class="btn btn-outline-secondary" id="togglePassword">
-                                            <i class="bx bxs-eye"></i>
-                                        </button>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-12 d-flex justify-content-center">
-                                            <div class="col-12 d-flex justify-content-center position-relative">
-                                                <img src="{% static 'assets/img/arepa_button.png' %}" alt="Arepa Button"
-                                                    class="arepa-hover-float">
-                                                <button type="submit"
-                                                    class="btn btn-arepa d-flex align-items-center position-relative">
-                                                    Ingresar
-                                                    <img src="{% static 'assets/img/arepa.svg' %}" alt="Arepa"
-                                                        class="arepa-icon-hover ms-2"
-                                                        style="display:none; position:absolute; top:-40px; left:50%; transform:translateX(-50%); width:40px;">
-                                                </button>
-                                            </div>
+                                    <div class="card">
+                                        <div class="card-body login-card-body">
+                                            <p class="login-box-msg">Iniciar Sesión</p>
+                                            <form id="login-form" method="post">
+                                                {% csrf_token %}
+                                                <div class="input-group mb-3">
+                                                    <div class="input-group-text"><i class="bx bxs-user"></i></div>
+                                                    <input type="text" name="username" class="form-control" placeholder="Usuario"
+                                                        required />
+                                                </div>
+                                                <div class="input-group mb-3">
+                                                    <div class="input-group-text"><i class="bx bxs-lock"></i></div>
+                                                    <input type="password" name="password" id="password" class="form-control"
+                                                        placeholder="Contraseña" required />
+                                                    <button type="button" class="btn btn-outline-secondary" id="togglePassword">
+                                                        <i class="bx bxs-eye"></i>
+                                                    </button>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-12 d-flex justify-content-center">
+                                                        <div class="col-12 d-flex justify-content-center position-relative">
+                                                            <img src="{% static 'assets/img/arepa_button.png' %}" alt="Arepa Button"
+                                                                class="arepa-hover-float">
+                                                            <button type="submit"
+                                                                class="btn btn-arepa d-flex align-items-center position-relative">
+                                                                Ingresar
+                                                                <img src="{% static 'assets/img/arepa.svg' %}" alt="Arepa"
+                                                                    class="arepa-icon-hover ms-2"
+                                                                    style="display:none; position:absolute; top:-40px; left:50%; transform:translateX(-50%); width:40px;">
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
                                         </div>
                                     </div>
-                                </form>
+                                </div>
                             </div>
                         </div>
-                    </div>
-
-                </div>
-            </div>
-            <div class="card extra-card arepa-carousel-card">
-                <div class="card-body p-0">
-                    <div id="arepa-carousel" class="arepa-carousel">
-                        <img src="{% static 'assets/img/Arepa 1.jpg' %}" class="arepa-slide active" alt="Arepa 1">
-                        <img src="{% static 'assets/img/Arepa 2.jpg' %}" class="arepa-slide" alt="Arepa 2">
-                        <img src="{% static 'assets/img/Arepa 3.jpg' %}" class="arepa-slide" alt="Arepa 3">
+                        <div class="card extra-card arepa-carousel-card w-100 mt-3 mt-lg-0 ms-lg-3">
+                            <div class="card-body p-0">
+                                <div id="arepa-carousel" class="arepa-carousel">
+                                    <img src="{% static 'assets/img/Arepa 1.jpg' %}" class="arepa-slide active" alt="Arepa 1">
+                                    <img src="{% static 'assets/img/Arepa 2.jpg' %}" class="arepa-slide" alt="Arepa 2">
+                                    <img src="{% static 'assets/img/Arepa 3.jpg' %}" class="arepa-slide" alt="Arepa 3">
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </body>
+<!-- Bootstrap JS -->
+<script src="{% static 'assets/bootstrap-5.3.6/js/bootstrap.bundle.min.js' %}"></script>
 <!-- Sweet Alert -->
 <script src="{% static 'assets/js/sweetalert2@11.js' %}"></script>
 

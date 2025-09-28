@@ -144,3 +144,66 @@
 .col-12.d-flex.justify-content-center.position-relative:hover .arepa-hover-float {
     opacity: 1;
 }
+
+/* ...existing code... */
+
+/* Ajustes para pantallas grandes */
+@media (min-width: 1440px) {
+    .login-box {
+        width: 250%;
+        margin: auto;
+    }
+}
+
+/* Ajustes para pantallas medianas */
+@media (max-width: 1024px) {
+    .login-box {
+        max-width: 90vw;
+        margin: auto;
+    }
+}
+
+/* Ajustes para pantallas pequeñas */
+@media (max-width: 768px) {
+    .login-box {
+        max-width: 98vw;
+        margin: auto;
+        padding: 0;
+    }
+    .login-outer-box {
+        flex-direction: column;
+        padding: 10px;
+    }
+}
+
+/* Ajustes para móviles */
+@media (max-width: 425px) {
+    .login-box {
+        max-width: 90vw;
+        min-width: 90vw;
+        margin-top: 2rem !important;
+        border-radius: 0;
+        box-shadow: none;
+    }
+    .login-outer-box {
+        padding: 5px;
+    }
+    .card {
+        border-radius: 0;
+    }
+}
+
+@media (max-width: 425px) {
+    #system-title{
+        font-size: 2rem;
+    }
+
+}
+
+.login-card-body{
+    border-radius: 10px !important;
+}
+
+.login-box .card, .register-box .card{
+    margin-bottom: 0 !important;
+}

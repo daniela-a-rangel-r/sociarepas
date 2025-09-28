@@ -1,8 +1,6 @@
 /* Carrusel de arepas */
 .arepa-carousel-card {
-    margin-left: 32px;
     margin-right: 0;
-    max-width: 440px;
     width: 100%;
     background: #fff;
     border: 1.5px solid #e0e0e0;
