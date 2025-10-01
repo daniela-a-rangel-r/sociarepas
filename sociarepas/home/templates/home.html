@@ -40,7 +40,7 @@
                     <span class="text">Inicio</span>
                 </a>
             </li>
-            {% if user.is_superuser %}
+            {% if user.is_staff %}
             <li>
                 <a href="{% url 'home:food_type' %}">
                     <i class='bx  bx-cookie'></i>

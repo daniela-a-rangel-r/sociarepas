@@ -130,6 +130,7 @@ $(document).on('click', '.delete-supplier-button', function () {
         text: "Esta acción no se puede deshacer",
         icon: 'warning',
         showCancelButton: true,
+        showConfirmButton: false,
         confirmButtonText: 'Sí, eliminar',
         cancelButtonText: 'Cancelar'
     }).then((result) => {
