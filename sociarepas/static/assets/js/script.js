@@ -26,8 +26,15 @@ const menuBar = document.querySelector('#content nav .bx.bx-menu');
 const sidebar = document.getElementById('sidebar');
 
 menuBar.addEventListener('click', function () {
-	sidebar.classList.toggle('hide');
-})
+    sidebar.classList.toggle('hide');
+    if (sidebar.classList.contains('hide')) {
+        localStorage.setItem('sidebarState', 'hide');
+        document.documentElement.classList.add('sidebar-hide');
+    } else {
+        localStorage.setItem('sidebarState', 'show');
+        document.documentElement.classList.remove('sidebar-hide');
+    }
+});
 
 
 // Mantener activo el menú según la URL y animar el cambio
@@ -110,7 +117,16 @@ switchMode.addEventListener('change', function () {
 
 
 document.addEventListener('DOMContentLoaded', function () {
-	const sidebar = document.getElementById('sidebar');
+    const sidebarState = localStorage.getItem('sidebarState');
+    if (sidebarState === 'hide') {
+        sidebar.classList.add('hide');
+        document.documentElement.classList.add('sidebar-hide');
+    } else {
+        sidebar.classList.remove('hide');
+        document.documentElement.classList.remove('sidebar-hide');
+    }
+	
+	// const sidebar = document.getElementById('sidebar');
 	// Cuando se muestra una modal
 	document.addEventListener('show.bs.modal', function () {
 		sidebar.classList.add('modal-sidebar-backdrop');
@@ -120,3 +136,28 @@ document.addEventListener('DOMContentLoaded', function () {
 		sidebar.classList.remove('modal-sidebar-backdrop');
 	});
 });
+
+// ...existing code...
+
+function forceSidebarHideOnMobile() {
+    const sidebar = document.getElementById('sidebar');
+    const menuBar = document.querySelector('#content nav .bx.bx-menu');
+    if (window.innerWidth <= 768) {
+        sidebar.classList.add('hide');
+        document.documentElement.classList.add('sidebar-hide');
+        // Deshabilita el botón de menú
+        if (menuBar) {
+            menuBar.style.pointerEvents = 'none';
+            menuBar.style.opacity = '0.5';
+        }
+    } else {
+        menuBar.style.pointerEvents = '';
+        menuBar.style.opacity = '';
+    }
+}
+
+// Ejecuta al cargar y al redimensionar
+window.addEventListener('DOMContentLoaded', forceSidebarHideOnMobile);
+window.addEventListener('resize', forceSidebarHideOnMobile);
+
+// ...existing code...

@@ -62,32 +62,30 @@ function getCookie(name) {
 }
 
 //Editar
+document.addEventListener('click', function (e) {
+    const button = e.target.closest('.edit-supplier-button');
+    if (button) {
+        const id = button.dataset.id;
+        const name = button.dataset.name;
+        const address = button.dataset.address;
+        const phone_number = button.dataset.phone_number;
+        const rif = button.dataset.rif;
+
+        document.querySelector('#edit_supplier-form input[name="name"]').value = name;
+        document.querySelector('#edit_supplier-form input[name="address"]').value = address;
+        document.querySelector('#edit_supplier-form input[name="phone_number"]').value = phone_number;
+        document.querySelector('#edit_supplier-form input[name="rif"]').value = rif;
+
+        const originalAction = document.getElementById('edit_supplier-form').getAttribute('data-base-action');
+        document.getElementById('edit_supplier-form').setAttribute('action', originalAction.replace('0', id));
+
+        const modal = new bootstrap.Modal(document.getElementById('edit-supplier-modal'));
+        modal.show();
+    }
+});
 
 document.addEventListener('DOMContentLoaded', function () {
     const editForm = document.getElementById('edit_supplier-form');
-
-    document.querySelectorAll('.edit-supplier-button').forEach(button => {
-        button.addEventListener('click', function () {
-            const id = this.dataset.id;
-            const name = this.dataset.name;
-            const address = this.dataset.address;
-            const phone_number = this.dataset.phone_number;
-            const rif = this.dataset.rif;
-
-            document.querySelector('#edit_supplier-form input[name="name"]').value = name;
-            document.querySelector('#edit_supplier-form input[name="address"]').value = address;
-            document.querySelector('#edit_supplier-form input[name="phone_number"]').value = phone_number;
-            document.querySelector('#edit_supplier-form input[name="rif"]').value = rif;
-
-
-            const originalAction = document.getElementById('edit_supplier-form').getAttribute('data-base-action');
-            document.getElementById('edit_supplier-form').setAttribute('action', originalAction.replace('0', id));
-
-            const modal = new bootstrap.Modal(document.getElementById('edit-supplier-modal'));
-            modal.show();
-        });
-    });
-
     if (editForm) {
         editForm.addEventListener('submit', function (e) {
             e.preventDefault();

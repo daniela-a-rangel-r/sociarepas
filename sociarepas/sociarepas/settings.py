@@ -25,7 +25,11 @@ SECRET_KEY = 'django-insecure-vfly)d8gms)0h)3azs5zfcv1-^qw_ir3=or2(w4pbeh8e2&+5f
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    '127.0.0.1',
+    'localhost',
+    'portafoliopruebas.pagekite.me',
+]
 
 
 # Application definition
@@ -148,3 +152,7 @@ MEDIA_ROOT = BASE_DIR / 'images'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+CSRF_TRUSTED_ORIGINS = [
+    'https://portafoliopruebas.pagekite.me',
+]

@@ -74,7 +74,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="fk_supplier">Proveedor</label>
-                        {{ food_filling_create_form.fk_supplier }}
+                        {{ food_filling_create_form.fk_supplier|add_class:"form-control" }}
                     </div>
                     <div class="mb-3">
                         <label for="initial_quantity">Cantidad Inicial</label>
@@ -161,5 +161,6 @@
 <script src="{% static 'assets/js/food_filling/datatable-food_filling.js' %}"></script>
 <script src="{% static 'assets/js/food_filling/numeric-only.js' %}"></script>
 <script src="{% static 'assets/js/food_filling/sweet-alert-food_filling.js' %}"></script>
+<script src="{% static 'assets/js/food_filling/select2-supplier.js' %}"></script>
 
 {% endblock %}

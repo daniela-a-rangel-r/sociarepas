@@ -61,9 +61,10 @@ function getCookie(name) {
 }
 
 //Editar
-document.querySelectorAll('.edit-food_type-button').forEach(button => {
-    button.addEventListener('click', function () {
-        const id = this.dataset.id;
+document.addEventListener('click', function (e) {
+    if (e.target.closest('.edit-food_type-button')) {
+        const button = e.target.closest('.edit-food_type-button');
+        const id = button.dataset.id;
 
         fetch(`/food_type/get_food_type/${id}/`, {
             headers: {
@@ -72,34 +73,25 @@ document.querySelectorAll('.edit-food_type-button').forEach(button => {
         })
             .then(response => response.json())
             .then(data => {
-                console.log(data);
                 if (data.status === 'success') {
                     const form = document.getElementById('edit_food_type-form');
                     const baseAction = form.getAttribute('data-base-action');
                     form.setAttribute('action', baseAction.replace('0', id));
 
-                    // ...existing code...
                     form.querySelector('input[name="name"]').value = data.data.name;
                     form.querySelector('input[name="price"]').value = data.data.price;
-
-                    // 1. Primero actualiza el campo oculto de cantidades
                     $('#edit_food_type-form #id_fillings_quantities').val(JSON.stringify(data.data.quantities));
-
-                    // 2. Luego actualiza el select y dispara el cambio
                     $('#edit_food_type-form #id_fillings').val(data.data.fillings.map(String)).trigger('change');
-
-                    // 3. Forzar renderizado después de un pequeño delay
                     setTimeout(() => {
                         window.renderQuantityInputsEdit && window.renderQuantityInputsEdit();
                     }, 100);
-                    // Mostrar el modal
                     const modal = new bootstrap.Modal(document.getElementById('edit-food_type-modal'));
                     modal.show();
                 } else {
                     Swal.fire('Error', data.message, 'error');
                 }
             });
-    });
+    }
 });
 
 
@@ -130,7 +122,7 @@ $(document).on('click', '.toggle-food_type-button', function () {
         cancelButtonText: 'Cancelar'
     }).then((result) => {
         if (result.isConfirmed) {
-            $.post(url, {'csrfmiddlewaretoken': getCookie('csrftoken')}, function (response) {
+            $.post(url, { 'csrfmiddlewaretoken': getCookie('csrftoken') }, function (response) {
                 if (response.success) {
                     Swal.fire('Listo', response.message, 'success').then(() => {
                         location.reload();

@@ -61,40 +61,32 @@ function getCookie(name) {
 }
 
 //Editar
+document.addEventListener("click", function (e) {
+  const button = e.target.closest(".edit-food_filling-button");
+  if (button) {
+    const id = button.dataset.id;
+    const name = button.dataset.name;
+    const quantity = button.dataset.quantity;
+    const supplier = button.dataset.supplier;
+
+    // Rellenar campos del formulario de edición
+    document.querySelector('#edit_food_filling-form input[name="name"]').value = name;
+    document.querySelector('#edit_food_filling-form input[name="initial_quantity"]').value = quantity;
+    document.querySelector('#edit_food_filling-form select[name="fk_supplier"]').value = supplier || "";
+
+    // Cambiar la acción del formulario
+    const form = document.getElementById("edit_food_filling-form");
+    const baseAction = form.getAttribute("data-base-action");
+    form.setAttribute("action", baseAction.replace(/0\/?$/, id + "/"));
+
+    // Mostrar la modal
+    const modal = new bootstrap.Modal(document.getElementById("edit-food_filling-modal"));
+    modal.show();
+  }
+});
 
 document.addEventListener("DOMContentLoaded", function () {
   const editForm = document.getElementById("edit_food_filling-form");
-
-  document.querySelectorAll(".edit-food_filling-button").forEach((button) => {
-    button.addEventListener("click", function () {
-      const id = this.dataset.id;
-      const name = this.dataset.name;
-      const quantity = this.dataset.quantity;
-
-      document.querySelector(
-        '#edit_food_filling-form input[name="name"]'
-      ).value = name;
-      document.querySelector(
-        '#edit_food_filling-form input[name="initial_quantity"]'
-      ).value = quantity;
-      document.querySelector(
-        '#edit_food_filling-form select[name="fk_supplier"]'
-      ).value = this.dataset.supplier || "";
-
-      const originalAction = document
-        .getElementById("edit_food_filling-form")
-        .getAttribute("data-base-action");
-      document
-        .getElementById("edit_food_filling-form")
-        .setAttribute("action", originalAction.replace("0", id));
-
-      const modal = new bootstrap.Modal(
-        document.getElementById("edit-food_filling-modal")
-      );
-      modal.show();
-    });
-  });
-
   if (editForm) {
     editForm.addEventListener("submit", function (e) {
       e.preventDefault();
@@ -212,8 +204,8 @@ document.addEventListener("DOMContentLoaded", function () {
       const foodFillingId = this.dataset.id;
       const foodFillingName = this.dataset.name;
 
-      foodFillingIdInput.value = foodFillingId;
-      foodFillingNameInput.value = foodFillingName;
+      if (foodFillingIdInput) foodFillingIdInput.value = foodFillingId;
+      if (foodFillingNameInput) foodFillingNameInput.value = foodFillingName;
     });
   });
 });
@@ -288,26 +280,26 @@ $(document).on("click", ".edit-food_filling-button", function () {
 
 
 //Mensaje dado cuando un relleno se relaciona con una arepa 
-then(async (response) => {
-  Swal.close();
-  let data;
-  try {
-    data = await response.json();
-  } catch {
-    data = {
-      success: false,
-      message: "Respuesta inválida del servidor",
-    };
-  }
-  if (response.ok && data.success) {
-    Swal.fire({
-      icon: "success",
-      title: "¡Eliminado!",
-      text: "El relleno ha sido eliminado correctamente.",
-    }).then(() => {
-      window.location.reload();
-    });
-  } else {
-    Swal.fire("Error", data.message || "Error al eliminar", "error");
-  }
-});
+// then(async (response) => {
+//   Swal.close();
+//   let data;
+//   try {
+//     data = await response.json();
+//   } catch {
+//     data = {
+//       success: false,
+//       message: "Respuesta inválida del servidor",
+//     };
+//   }
+//   if (response.ok && data.success) {
+//     Swal.fire({
+//       icon: "success",
+//       title: "¡Eliminado!",
+//       text: "El relleno ha sido eliminado correctamente.",
+//     }).then(() => {
+//       window.location.reload();
+//     });
+//   } else {
+//     Swal.fire("Error", data.message || "Error al eliminar", "error");
+//   }
+// });

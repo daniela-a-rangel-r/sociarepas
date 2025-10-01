@@ -18,7 +18,18 @@ $(document).ready(function () {
         },
         paging: true,
         searching: true,
-        responsive: true,
+        responsive: {
+            details: {
+                type: 'inline', // Muestra los detalles debajo de la fila
+                target: 'tr'    // El icono aparece en la fila completa
+            }
+        },
         lengthChange: true,
+        columnDefs: [
+            { responsivePriority: 1, targets: 0 }, // # (primera columna)
+            { responsivePriority: 2, targets: 1 }, // Nombre (segunda columna)
+            { responsivePriority: 3, targets: 2 }, // Cantidad disponible (tercera columna)
+            { responsivePriority: 4, targets: -1 } // Opciones (última columna)
+        ]
     });
 });
