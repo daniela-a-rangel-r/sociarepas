@@ -334,3 +334,37 @@ function verifyStockModal(cart) {
     })
     .then(response => response.json());
 }
+
+// Validación antes de registrar orden (cliente)
+document.addEventListener('DOMContentLoaded', function () {
+    const clientForm = document.getElementById('clientForm');
+    if (clientForm) {
+        clientForm.addEventListener('submit', function (e) {
+            const phoneInput = clientForm.querySelector('input[name="phone"]');
+            const ciInput = clientForm.querySelector('input[name="identity_number"]');
+            const phonePattern = /^\+58 \d{3}-\d{3}-\d{4}$/;
+            const ciPattern = /^\d{8}$/;
+
+            if (phoneInput && !phonePattern.test(phoneInput.value)) {
+                e.preventDefault();
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Teléfono inválido',
+                    text: 'El número de teléfono debe tener el formato: +58 412-123-4567'
+                });
+                phoneInput.focus();
+                return false;
+            }
+            if (ciInput && !ciPattern.test(ciInput.value)) {
+                e.preventDefault();
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Cédula inválida',
+                    text: 'La cédula debe tener exactamente 8 dígitos.'
+                });
+                ciInput.focus();
+                return false;
+            }
+        });
+    }
+});

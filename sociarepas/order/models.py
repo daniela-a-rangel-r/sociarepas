@@ -15,7 +15,7 @@ class Client(models.Model):
     lastname = models.CharField(max_length=45, null=False, verbose_name='Apellido del cliente')
     identity_number = models.IntegerField(null=False, verbose_name='Cédula del cliente')
     address = models.CharField(max_length=45, null=False, verbose_name='Dirección del cliente')
-    phone_number = models.IntegerField(null=False, verbose_name='Numero telefónico del cliente')
+    phone_number = models.CharField(max_length=20, null=False, verbose_name='Número telefónico del cliente')
 
     class Meta:
         db_table = 'client'

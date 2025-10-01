@@ -11,7 +11,7 @@ class Food_FillingBaseForm(forms.ModelForm):
     )
     initial_quantity = forms.CharField(
         label='Cantidad inicial',
-        widget=forms.TextInput(attrs={'class': 'form-control numeric-only'})
+        widget=forms.TextInput(attrs={'class': 'form-control'})
     )
 
     class Meta:
@@ -55,11 +55,11 @@ class SupplierBaseForm(forms.ModelForm):
     )
     phone_number = forms.CharField(
         label='Número de teléfono del proveedor',
-        widget=forms.TextInput(attrs={'class': 'form-control numeric-only'})
+        widget=forms.TextInput(attrs={'class': 'form-control'})
     )
     rif = forms.CharField(
         label='RIF del proveedor',
-        widget=forms.TextInput(attrs={'class': 'form-control numeric-only'})
+        widget=forms.TextInput(attrs={'class': 'form-control'})
     )
 
     class Meta:

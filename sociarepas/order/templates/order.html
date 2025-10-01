@@ -98,7 +98,7 @@
                             </div>
                             <div class="col-md-4">
                                 <label class="form-label">Número telefónico</label>
-                                <input type="tel" class="form-control numeric-only" name="phone_number" required>
+                                <input type="tel" class="form-control" name="phone_number" required>
                             </div>
                             <div class="col-md-4">
                                 <label class="form-label">Método de pago</label>
@@ -144,4 +144,14 @@
 <!-- Custom JS -->
 <script src="{% static 'assets/js/order/food_type_cart.js' %}"></script>
 <script src="{% static 'assets/js/order/numeric-only.js' %}"></script>
+<script src="{% static 'assets/js/order/ci-format.js' %}"></script>
+<script>
+$(document).ready(function() {
+    $('select[name="payment_type"]').select2({
+        dropdownParent: $('#clientModal'),
+        width: '100%',
+        placeholder: "Seleccione"
+    });
+});
+</script>
 {% endblock %}

@@ -179,3 +179,57 @@ $(document).on('click', '.delete-supplier-button', function () {
         }
     });
 });
+
+// Validación antes de enviar el formulario de registro y edición de proveedor
+function validateSupplierForm(form) {
+    const phoneInput = form.querySelector('input[name="phone_number"]');
+    const rifInput = form.querySelector('input[name="rif"]');
+    const phonePattern = /^\+58 \d{3}-\d{3}-\d{4}$/;
+    const rifPattern = /^[CEGJPV]-\d{8}-\d$/;
+
+    if (!phonePattern.test(phoneInput.value)) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Teléfono inválido',
+            text: 'El número de teléfono debe tener el formato: +58 412-123-4567'
+        });
+        phoneInput.focus();
+        return false;
+    }
+    if (!rifPattern.test(rifInput.value)) {
+        Swal.fire({
+            icon: 'error',
+            title: 'RIF inválido',
+            text: 'El RIF debe tener el formato: J-12345678-9'
+        });
+        rifInput.focus();
+        return false;
+    }
+    return true;
+}
+
+// Registro proveedor
+document.addEventListener('DOMContentLoaded', function () {
+    const form = document.getElementById('supplier-form');
+    if (form) {
+        form.addEventListener('submit', function (e) {
+            if (!validateSupplierForm(form)) {
+                e.preventDefault();
+                return false;
+            }
+        });
+    }
+});
+
+// Edición proveedor
+document.addEventListener('DOMContentLoaded', function () {
+    const editForm = document.getElementById('edit_supplier-form');
+    if (editForm) {
+        editForm.addEventListener('submit', function (e) {
+            if (!validateSupplierForm(editForm)) {
+                e.preventDefault();
+                return false;
+            }
+        });
+    }
+});
