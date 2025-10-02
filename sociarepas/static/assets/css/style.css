@@ -488,7 +488,6 @@ body {
 	display: grid;
 	grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
 	grid-gap: 24px;
-	margin-top: 36px;
 }
 
 /* Tarjeta Resumen Individual */
@@ -1486,4 +1485,40 @@ html.sidebar-hide #sidebar .side-menu li a .text {
         font-size: 0.75rem;
         padding: 0.25rem 0.5rem;
     }
+}
+
+/* ...código existente... */
+
+/* Sticky footer para páginas sin sidebar */
+html, body {
+    height: 100%;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+footer {
+    margin-top: auto;
+    width: 100%;
+    /* Puedes agregar más estilos si lo deseas */
+    background: #fff;
+    border-top: 1px solid #eee;
+    z-index: 100;
+}
+/* Sticky footer SOLO para el área de contenido principal */
+#content {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+#content main {
+    flex: 1 0 auto;
+}
+
+footer {
+    margin-top: 0;
 }

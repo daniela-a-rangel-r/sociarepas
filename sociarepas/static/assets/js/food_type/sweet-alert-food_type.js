@@ -85,6 +85,12 @@ document.addEventListener('click', function (e) {
                     setTimeout(() => {
                         window.renderQuantityInputsEdit && window.renderQuantityInputsEdit();
                     }, 100);
+                    // --- Solución: Cierra cualquier modal abierta antes de abrir otra ---
+                    const modalEl = document.getElementById('edit-food_type-modal');
+                    const modalInstance = bootstrap.Modal.getInstance(modalEl);
+                    if (modalInstance) modalInstance.hide();
+
+                    // Ahora sí abre la modal
                     const modal = new bootstrap.Modal(document.getElementById('edit-food_type-modal'));
                     modal.show();
                 } else {

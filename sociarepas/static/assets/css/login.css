@@ -207,3 +207,44 @@
 .login-box .card, .register-box .card{
     margin-bottom: 0 !important;
 }
+
+/* ...existing code... */
+
+.ascendev-float-icon {
+    position: fixed;
+    right: 24px;
+    bottom: 24px;
+    z-index: 100;
+    background: #fff;
+    border-radius: 50%;
+    width: 54px;
+    height: 54px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.12);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: box-shadow 0.2s, transform 0.2s;
+}
+.ascendev-float-icon:hover {
+    box-shadow: 0 4px 18px rgba(0,0,0,0.18);
+    transform: scale(1.07);
+}
+.ascendev-float-icon img {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: block;
+}
+
+@media (max-width: 600px) {
+    .ascendev-float-icon {
+        width: 42px;
+        height: 42px;
+        right: 12px;
+        bottom: 12px;
+    }
+    .ascendev-float-icon img {
+        width: 24px;
+        height: 24px;
+    }
+}
